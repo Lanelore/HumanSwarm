@@ -1,11 +1,16 @@
 
 class State
 {
+  int stateID; 
+  StateMgr stateMgr;
+  PlayArea playArea;
+  
   State() {
   }
   
   State(StateMgr _stateMgr) {
     stateMgr = _stateMgr;
+    this.playArea = stateMgr.playArea;
   }
   
   void setup() {
@@ -29,7 +34,4 @@ class State
   void setStateMgr(StateMgr _stateMgr) {
     stateMgr = _stateMgr;
   }
-
-  int stateID; 
-  StateMgr stateMgr;
 }

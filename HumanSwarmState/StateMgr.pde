@@ -5,6 +5,14 @@ class StateMgr {
   
   int currentStateID;
   int stateStamp;
+  PlayArea playArea;
+  
+  StateMgr(){
+  }
+  
+  StateMgr(PlayArea playArea){
+    this.playArea = playArea;
+  }
   
   int setState(int newState) {
     if (newState < 0 || newState >= states.length) {

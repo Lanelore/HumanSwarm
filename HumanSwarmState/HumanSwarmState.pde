@@ -12,9 +12,10 @@ int STATEC;
 void setup() {
   size(600, 400);
   smooth();
-  noStroke();
+  noStroke();  
   
-  stateMgr = new StateMgr();
+  PlayArea playArea = new PlayArea(width * 0.1, height * 0.1, width * 0.8, height * 0.8);
+  stateMgr = new StateMgr(playArea);
   
   STATEA = stateMgr.addState(new StateA(stateMgr));
   STATEB = stateMgr.addState(new StateB(stateMgr));
