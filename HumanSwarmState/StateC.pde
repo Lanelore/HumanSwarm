@@ -1,6 +1,56 @@
 
 class StateC extends State {
   
+  int idOfStateA;
+  float centerX = playArea.x + playArea.areaWidth/2;
+  float centerY = playArea.y + playArea.areaHeight/2;
+  float ballWidth = playArea.areaHeight/2;
+  float targetBallWidth = ballWidth;
+  int counter = 0;
+  float previousT = 0;
+  int ballAmount = 1;
+  PVector[] pointsA = 
+    {
+      new PVector(centerX, centerY), 
+        new PVector(playArea.x + ballWidth/2, centerY),      
+        new PVector(playArea.x + ballWidth/2, playArea.y + playArea.areaHeight - ballWidth/2),
+      new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/2), 
+        new PVector(playArea.x + playArea.areaWidth - ballWidth/2, playArea.y + playArea.areaHeight - ballWidth/2),
+        new PVector(playArea.x + playArea.areaWidth - ballWidth/2, playArea.y + playArea.areaHeight - ballWidth/2),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/2, centerY), 
+        new PVector(playArea.x + playArea.areaWidth - ballWidth/2, playArea.y + ballWidth/2),
+        new PVector(centerX, playArea.y + ballWidth/2),
+      new PVector(centerX, centerY)
+    };
+    
+  PVector[] pointsB1 = 
+    {
+      new PVector(centerX, centerY), 
+        new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/4),
+        new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight - ballWidth/4),
+      new PVector(playArea.x + ballWidth/4, centerY),
+        new PVector(playArea.x + ballWidth/4, playArea.y + ballWidth/4),
+        new PVector(centerX, playArea.y + ballWidth/4),
+      new PVector(centerX, centerY),
+        new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/4),
+        new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+    };
+  
+  PVector[] pointsB2 = 
+  {
+    new PVector(centerX, centerY), 
+      new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/4),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight - ballWidth/4),
+    new PVector(playArea.x + playArea.areaWidth - ballWidth/4, centerY),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + ballWidth/4),
+      new PVector(centerX, playArea.y + ballWidth/4),
+    new PVector(centerX, centerY),
+      new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/4),
+      new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight),
+    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+  };
+    
   StateC() {
     super();
   }
@@ -10,58 +60,56 @@ class StateC extends State {
     idOfStateA = _idOfStateA;
   }
   
-  float centerX;
-  float centerY;
+  void setup() {  }
   
-  void setup(){
-    centerX = playArea.x + playArea.areaWidth/2;
-    centerY = playArea.y + playArea.areaHeight/2;
+  void draw() {    
+    background(255);
+    playArea.drawPlayArea();
+    
+    if (ballWidth > targetBallWidth){        
+      ballWidth -= 1;
+    }
+      
+    if (ballAmount == 1){
+      followPath(pointsA);      
+    } else if (ballAmount == 2){
+      followPath(pointsB1);
+      followPath(pointsB2);
+    }
+    
+    if (ballAmount == 4){
+      background(0);
+    }
   }
   
-  void draw() {
-    //fill(0, 0, 255);
-    //rect(0, 0, width, height);  
+  void followPath(PVector[] points){
+    float t = (frameCount / 200.0f) % 1;
+    if (t < previousT){
+      if (counter + 4 >= points.length){
+        counter = 0;
+        ballAmount *=2;
+        targetBallWidth = ballWidth/2;
+      } else {
+        counter += 3;
+      }
+    }
+    previousT = t;
     
-    background(255);
-    noStroke();
-    playArea.drawPlayArea();
- 
     noFill();
-    stroke(0);
-    
-    
-    PVector startPoint = new PVector(centerX, centerY);
-    PVector startControlPoint = new PVector(playArea.x, centerY);
-    PVector endControlPoint = new PVector(playArea.x, playArea.y + playArea.areaHeight);    
-    PVector endPoint = new PVector(centerX, playArea.y + playArea.areaHeight);
-   
+    stroke(0);    
+    PVector startPoint = new PVector(points[counter].x, points[counter].y);
+    PVector startControlPoint = new PVector(points[counter + 1].x, points[counter + 1].y);
+    PVector endControlPoint = new PVector(points[counter + 2].x, points[counter + 2].y); 
+    PVector endPoint = new PVector(points[counter + 3].x, points[counter + 3].y);
     //curve that I want an object/sprite to move down
     bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
-     
+    
+    noStroke();
     fill(255);
-
-    float t = (frameCount/200.0)%1;
     float x = bezierPoint(startPoint.x, startControlPoint.x, endControlPoint.x, endPoint.x, t);
     float y = bezierPoint(startPoint.y, startControlPoint.y, endControlPoint.y, endPoint.y, t);    
-   
-    println("x " + x + ", y " + y);
     fill(0,255,0);
-    ellipse(x, y, 20, 20);
-    
-    
-    /*
-    
-    noFill();
-    bezier(85, 20, 10, 10, 90, 90, 15, 80);
-    fill(255);
-    int steps = 10;
-    for (int i = 0; i <= steps; i++) {
-      float t1 = i / float(steps);
-      float x1 = bezierPoint(85, 10, 90, 15, t1);
-      float y1 = bezierPoint(20, 10, 90, 80, t1);
-      ellipse(x1, y1, 5, 5);      
-    }
-    */
+    ellipse(x, y, ballWidth, ballWidth);
   }
 
   // state transition from inside of state:
@@ -73,6 +121,4 @@ class StateC extends State {
     }
     return super.getNextStateID();
   }  
-  
-  int idOfStateA;
 }

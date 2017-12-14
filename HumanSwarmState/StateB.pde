@@ -11,6 +11,8 @@ class StateB extends State {
   // in the window
   ArrayList<PVector> morph = new ArrayList<PVector>();
   
+  int squareWidth = width;
+  
   // This boolean variable will control if we are morphing to a circle or square
   boolean state = false;
 
@@ -36,24 +38,26 @@ class StateB extends State {
   
     // A square is a bunch of vertices along straight lines
     // Top of square
-    for (int x = -50; x < 50; x += 10) {
-      square.add(new PVector(x, -50));
+    for (int x = -squareWidth; x < squareWidth; x += squareWidth/5) {
+      square.add(new PVector(x, -squareWidth));
     }
     // Right side
-    for (int y = -50; y < 50; y += 10) {
-      square.add(new PVector(50, y));
+    for (int y = -squareWidth; y < squareWidth; y += squareWidth/5) {
+      square.add(new PVector(squareWidth, y));
     }
     // Bottom
-    for (int x = 50; x > -50; x -= 10) {
-      square.add(new PVector(x, 50));
+    for (int x = squareWidth; x > -squareWidth; x -= squareWidth/5) {
+      square.add(new PVector(x, squareWidth));
     }
     // Left side
-    for (int y = 50; y > -50; y -= 10) {
-      square.add(new PVector(-50, y));
+    for (int y = squareWidth; y > -squareWidth; y -= squareWidth/5) {
+      square.add(new PVector(-squareWidth, y));
     }
   }
   
   void draw() {
+    //width -=1;
+    
     background(0);
     noStroke();
     fill(124, 252, 0);
