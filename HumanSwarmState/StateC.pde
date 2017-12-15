@@ -23,6 +23,7 @@ class StateC extends State {
       new PVector(centerX, centerY)
     };
     
+  // ends on the right side  
   PVector[] pointsB1 = 
     {
       new PVector(centerX, centerY), 
@@ -37,6 +38,7 @@ class StateC extends State {
       new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
     };
   
+  // ends on the left side
   PVector[] pointsB2 = 
   {
     new PVector(centerX, centerY), 
@@ -49,6 +51,42 @@ class StateC extends State {
       new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/4),
       new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight),
     new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+  };
+  
+  // left side top #1
+  PVector[] pointsC1 = 
+  {
+    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+      new PVector(playArea.x + ballWidth/4, playArea.y + ballWidth/8),
+      new PVector(playArea.x, playArea.y + playArea.areaHeight / 5),
+    new PVector(centerX, playArea.y + playArea.areaHeight / 5)  
+  };
+  
+  // left side bottom #3
+  PVector[] pointsC2 = 
+  {
+    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+      new PVector(playArea.x + ballWidth/4, playArea.y + ballWidth/4 + playArea.areaHeight * 0.25),
+      new PVector(playArea.x, playArea.y + playArea.areaHeight / 5 * 3),
+    new PVector(centerX, playArea.y + playArea.areaHeight / 5 * 3)  
+  };
+  
+  // right side top #2
+  PVector[] pointsC3 = 
+  {
+    new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + ballWidth/8),
+      new PVector(playArea.x + playArea.areaWidth, playArea.y + playArea.areaHeight / 5 * 2),
+    new PVector(centerX, playArea.y + playArea.areaHeight / 5 * 2)  
+  };
+  
+  // right side bottom #4
+  PVector[] pointsC4 = 
+  {
+    new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + ballWidth/4 + playArea.areaHeight * 0.25),
+      new PVector(playArea.x + playArea.areaWidth, playArea.y + playArea.areaHeight / 5 * 4),
+    new PVector(centerX, playArea.y + playArea.areaHeight / 5 * 4)  
   };
     
   StateC() {
@@ -78,7 +116,10 @@ class StateC extends State {
     }
     
     if (ballAmount == 4){
-      background(0);
+      followPath(pointsC1);
+      followPath(pointsC2);
+      followPath(pointsC3);
+      followPath(pointsC4);
     }
   }
   
