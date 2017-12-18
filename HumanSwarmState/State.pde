@@ -34,4 +34,8 @@ class State
   void setStateMgr(StateMgr _stateMgr) {
     stateMgr = _stateMgr;
   }
+  
+  boolean isActive(){
+    return stateMgr.currentStateID == this.stateID ? true : false;
+  }
 }
