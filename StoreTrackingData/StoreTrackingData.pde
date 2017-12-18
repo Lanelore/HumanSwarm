@@ -8,9 +8,17 @@ int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
 int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
 int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
 
+Animation ant;
+Animation fish;
+
 boolean ShowTrack = true;
 boolean ShowPath = false;
 boolean ShowFeet = false;
+
+boolean showID = false;
+float opacityPrevious = 40;
+
+int numberPerson = 0;
 int frame = 0;
 long time;
 
@@ -35,6 +43,9 @@ void setup()
   initTracking(false, wallHeight);
   table = loadTable("tracking.csv", "header");
   time = System.currentTimeMillis();
+  
+  ant = new Animation("ant",2);
+  
 }
 
 void draw()
@@ -48,6 +59,63 @@ void draw()
   rect(0, 0, windowWidth, wallHeight);
   fill(150);
   text((int)frameRate + " FPS", width / 2, 10);
+  text(numberPerson + " tracked person", width / 2, 30);
+
+  if (ShowTrack)
+
+    if (frame == 600) {
+      saveTable(table, "tracking.csv");
+      exit();
+    }
+
+  {
+
+    //show recent trackers
+
+    numberPerson = 0;
+    String frameS = "" + frame;
+
+    for (TableRow row : table.findRows(frameS, "frame")) {
+
+      numberPerson++;
+
+      noStroke();
+      fill(255, 255, 255, opacityPrevious);
+      ellipse(row.getFloat("x"), row.getFloat("y"), cursor_size, cursor_size);
+      fill(0);
+      
+      //ant.display(row.getFloat("x"), row.getFloat("y"));
+
+      if (showID)
+        text(row.getInt("id"), row.getFloat("x"), row.getFloat("y"));
+    }
+
+    //show current trackers and save them in the csv file
+
+    for (int trackID=0; trackID<GetNumTracks (); trackID++) 
+    {
+
+      numberPerson++;
+
+      noStroke();
+      fill(255, 255, 255);
+      ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
+      fill(0);
+
+      if (showID)
+        text(GetCursorID(trackID), GetX(trackID), GetY(trackID));
+
+      TableRow row = table.addRow();
+
+      row.setLong("time", time);
+      row.setInt("frame", frame);
+      row.setInt("id", trackID);
+      row.setFloat("x", GetX(trackID));
+      row.setFloat("y", GetY(trackID));
+    }
+
+    frame++;
+  }
 
   if (ShowPath)
   {
@@ -71,55 +139,6 @@ void draw()
         }
       }
     }
-  }
-
-  if (ShowTrack)
-  
-   if(frame == 250){
-     exit();
-   }
-  
-  {
-    
-    //show recent trackers
-
-    String frameS = "" + frame;
-
-    for (TableRow row : table.findRows(frameS, "frame")) {
-
-      noStroke();
-      fill(255, 255, 255, 120);
-      ellipse(row.getFloat("x"), row.getFloat("y"), cursor_size, cursor_size);
-      fill(0);
-      text(row.getInt("id"), row.getFloat("x"), row.getFloat("y"));
-      
-    }
-    
-    //show current trackers and save them in the csv file
-   
-    for (int trackID=0; trackID<GetNumTracks (); trackID++) 
-    {
-      
-      noStroke();
-      fill(255, 255, 255);
-      ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
-      fill(0);
-      text(GetCursorID(trackID), GetX(trackID), GetY(trackID));
-
-
-      TableRow row = table.addRow();
-
-      row.setLong("time", time);
-      row.setInt("frame", frame);
-      row.setInt("id", trackID);
-      row.setFloat("x", GetX(trackID));
-      row.setFloat("y", GetY(trackID));
-
-      saveTable(table, "tracking.csv");
-
-    }
-
-    frame++;
   }
 
   if (ShowFeet)
