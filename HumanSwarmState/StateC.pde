@@ -1,4 +1,3 @@
-
 class StateC extends State {
   
   int idOfStateA;
@@ -131,19 +130,23 @@ class StateC extends State {
   void setup() {  }
   
   void draw() {    
+    // only only draw if this state is active
     if (!this.isActive()){
       return;
     }
     
-      background(255);
-      playArea.drawPlayArea();
+    // draw the background once and draw all other balls and paths above via the specific followPath
+    background(bgColor);
+    playArea.drawPlayArea();
     
+    // increase or decrease to the defined targetWidth
     if (ballWidth > targetBallWidth){        
       ballWidth -= 1;
     } else if (ballWidth < targetBallWidth){
       ballWidth += 1;
     }
       
+    // create the defined amount of balls with their curved lines
     if (ballAmount == 1){
       followPath(pointsA);      
     } else if (ballAmount == 2){
@@ -156,26 +159,28 @@ class StateC extends State {
       followPath(pointsC4);
     } 
     
+    // stopNow ensures that only one out of multiple balls increases the ballAmount and targetWidth
     stopNow = false;
   }
   
   void followPath(PVector[] points){   
-    float t = (frameCount / animationSpeed) % 1;          
-    
-  //  println("t " + t + ", framecount " + frameCount);               
+    // t describes the current percentage of this curve's animation (0 = start, 1 = end)
+    float t = (frameCount / animationSpeed) % 1;  
+    // futueT is the t that will come after the current t - used to detect a futue flip
     float futureT = ((frameCount + 1) / 200.0f) % 1;  
-    println("t " + t + ", futureT " + futureT + ", previousT " + previousT + ", frameCount " + frameCount);
         
+    // increase the ball amount and target width BEFORE the array ends
+    // this ensures that this function always gets called with the correct points array
     if (futureT < t){
       if (counter + 4 >= points.length && !stopNow){
         ballAmount *= 2;
         targetBallWidth = ballWidth/2;
-        println("ballAmount " + ballAmount);
         stopNow = true;
       } 
-      println("future skip");
     }     
     
+    // increase the counter AFTER the old array ends when we have the NEW array
+    // this gets called one frame after the previous if statement
     if (t < previousT){
       if (counter + 4 >= points.length){
         counter = 0;
@@ -185,25 +190,29 @@ class StateC extends State {
         println("increase");
       } 
     }          
-        
+    
+    // save the current t to previousT so we can use both values to detect a flip in the next frame
     previousT = t;
     
     noFill();
-    stroke(0);    
+    stroke(bgColor);    
     PVector startPoint = new PVector(points[counter].x, points[counter].y);
     PVector startControlPoint = new PVector(points[counter + 1].x, points[counter + 1].y);
     PVector endControlPoint = new PVector(points[counter + 2].x, points[counter + 2].y); 
     PVector endPoint = new PVector(points[counter + 3].x, points[counter + 3].y);
-    //curve that I want an object/sprite to move down
+    // curve that I want an object/sprite to move down
     bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
     
     noStroke();
     fill(255);
     float x = bezierPoint(startPoint.x, startControlPoint.x, endControlPoint.x, endPoint.x, t);
     float y = bezierPoint(startPoint.y, startControlPoint.y, endControlPoint.y, endPoint.y, t);    
-    fill(0,255,0);
+    fill(greenColor);
+    // green circle that moves along the curve
     ellipse(x, y, ballWidth, ballWidth);
     
+    // increase the ball size at the end of StateC
+    // use a refernce point to check when it's time and wait delayTime before starting the growth
     if (x == referenceVector.x && y == referenceVector.y){
       delayGrowth = true;
     }

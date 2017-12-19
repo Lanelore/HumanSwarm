@@ -1,9 +1,10 @@
-
-class State
-{
+class State {
+  
   int stateID; 
   StateMgr stateMgr;
   PlayArea playArea;
+  color bgColor = color(0);
+  color greenColor = color(0, 255, 0);
   
   State() {
   }

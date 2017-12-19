@@ -1,9 +1,10 @@
-class PlayArea
-{
+class PlayArea {
+  
   float x;
   float y;
   float areaWidth;
   float areaHeight;
+  color playAreaColor = color(0, 0, 255);
   
   PlayArea() {
     this.x = 0;
@@ -23,7 +24,7 @@ class PlayArea
   }
   
   public void drawPlayArea() {
-    fill(0, 0, 255);
+    fill(playAreaColor);
     rect(x, y, areaWidth, areaHeight);
   }
 }

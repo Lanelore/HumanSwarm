@@ -56,11 +56,13 @@ class StateB extends State {
   }
   
   void draw() {
-    //width -=1;
+    if (!this.isActive()){
+      return;
+    }
     
     background(0);
     noStroke();
-    fill(124, 252, 0);
+    fill(greenColor);
   
     // We will keep how far the vertices are from their target
     float totalDistance = 0;
@@ -68,6 +70,7 @@ class StateB extends State {
     // Look at each vertex
     for (int i = 0; i < circle.size(); i++) {
       PVector v1;
+      
       // Are we lerping to the circle or square?
       if (state) {
         v1 = circle.get(i);
@@ -86,6 +89,12 @@ class StateB extends State {
     // If all the vertices are close, switch shape
     if (totalDistance < 0.1) {
       state = !state;
+      
+      print(state ? "Circle " : "Square ");
+    }
+    
+    if (!state){
+       background(greenColor);
     }
     
     // Draw relative to center

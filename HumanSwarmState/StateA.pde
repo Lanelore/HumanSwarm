@@ -19,9 +19,13 @@ class StateA extends State {
   }
   
   void draw() {
+    if (!this.isActive()){
+      return;
+    }
+    
     background(0);
     noStroke();
-    fill(124, 252, 0);
+    fill(greenColor);
     ellipse(xPos, yPos, ballWidth, ballWidth);
     xPos = xPos + xDir;
     if (xPos > width - ballWidth/2)
