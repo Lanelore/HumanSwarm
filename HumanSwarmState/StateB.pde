@@ -15,6 +15,7 @@ class StateB extends State {
   
   // This boolean variable will control if we are morphing to a circle or square
   boolean state = false;
+  boolean didOnce = false;
 
   StateB() {
     super();
@@ -93,8 +94,10 @@ class StateB extends State {
       print(state ? "Circle " : "Square ");
     }
     
-    if (!state){
+    if (!state && !didOnce){
        background(greenColor);
+    } else {
+       didOnce = true;
     }
     
     // Draw relative to center
@@ -107,4 +110,13 @@ class StateB extends State {
     endShape(CLOSE);
   }
   
+    // state transition from inside of state:
+  // after 3 seconds, next state is A
+  int getNextStateID() {
+    if (!state && didOnce)
+    {
+      return stateID + 1; 
+    }
+    return super.getNextStateID();
+  } 
 }
