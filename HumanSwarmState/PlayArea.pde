@@ -24,7 +24,9 @@ class PlayArea {
   }
   
   public void drawPlayArea() {
-    fill(playAreaColor);
+    noFill();
+    stroke(playAreaColor);
+    //fill(playAreaColor);
     rect(x, y, areaWidth, areaHeight);
   }
 }

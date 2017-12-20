@@ -13,6 +13,7 @@ class StateC extends State {
   float delayTime = 0;
   boolean stopNow = false;
   float animationSpeed = 200;
+  boolean start1 = false;  // starts with the first previousT flip
   
   PVector[] pointsA = 
     {
@@ -134,7 +135,7 @@ class StateC extends State {
     if (!this.isActive()){
       return;
     }
-    
+        
     // draw the background once and draw all other balls and paths above via the specific followPath
     background(bgColor);
     playArea.drawPlayArea();
@@ -172,28 +173,44 @@ class StateC extends State {
     // increase the ball amount and target width BEFORE the array ends
     // this ensures that this function always gets called with the correct points array
     if (futureT < t){
-      if (counter + 4 >= points.length && !stopNow){
+      if (!start1){
+        start1 = true;       
+        printCircleArc(points, 0);
+        return;
+      } else if (counter + 4 >= points.length && !stopNow){
         ballAmount *= 2;
         targetBallWidth = ballWidth/2;
         stopNow = true;
-      } 
+      }       
     }     
+    
+    // reset the t value until the animation actually starts - the ball stays in the middle
+    if (!start1){
+        t = 0;
+        previousT = 0;
+        counter = 0;
+    }
     
     // increase the counter AFTER the old array ends when we have the NEW array
     // this gets called one frame after the previous if statement
-    if (t < previousT){
+    if (t < previousT){  
+      println("t " + t + ", previousT " + previousT + ", start " + start1);
       if (counter + 4 >= points.length){
         counter = 0;
         println("end me");
-      } else {
+      } else{
         counter += 3;
         println("increase");
       } 
-    }          
+    }     
     
     // save the current t to previousT so we can use both values to detect a flip in the next frame
     previousT = t;
-    
+
+    printCircleArc(points, t); 
+  }
+  
+  void printCircleArc(PVector[] points, float t){
     noFill();
     stroke(bgColor);    
     PVector startPoint = new PVector(points[counter].x, points[counter].y);
@@ -201,7 +218,7 @@ class StateC extends State {
     PVector endControlPoint = new PVector(points[counter + 2].x, points[counter + 2].y); 
     PVector endPoint = new PVector(points[counter + 3].x, points[counter + 3].y);
     // curve that I want an object/sprite to move down
-    bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
+    //bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
     
     noStroke();
     fill(255);
@@ -210,7 +227,7 @@ class StateC extends State {
     fill(greenColor);
     // green circle that moves along the curve
     ellipse(x, y, ballWidth, ballWidth);
-    
+        
     // increase the ball size at the end of StateC
     // use a refernce point to check when it's time and wait delayTime before starting the growth
     if (x == referenceVector.x && y == referenceVector.y){
@@ -223,7 +240,7 @@ class StateC extends State {
       delayGrowth = false;
       delayTime = 0;
       targetBallWidth = playArea.areaHeight/2;
-    }      
+    } 
   }
 
   // state transition from inside of state:

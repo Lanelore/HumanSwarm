@@ -12,6 +12,7 @@ class StateB extends State {
   ArrayList<PVector> morph = new ArrayList<PVector>();
   
   int squareWidth = width;
+  float circelWidth = playArea.areaHeight/2;
   
   // This boolean variable will control if we are morphing to a circle or square
   boolean state = false;
@@ -31,7 +32,7 @@ class StateB extends State {
       // Note we are not starting from 0 in order to match the
       // path of a circle.  
       PVector v = PVector.fromAngle(radians(angle-135));
-      v.mult(100);
+      v.mult(circelWidth/2);
       circle.add(v);
       // Let's fill out morph ArrayList with blank PVectors while we are at it
       morph.add(new PVector());
@@ -61,7 +62,9 @@ class StateB extends State {
       return;
     }
     
-    background(0);
+    background(bgColor);
+    playArea.drawPlayArea();
+
     noStroke();
     fill(greenColor);
   
