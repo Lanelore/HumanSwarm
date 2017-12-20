@@ -1,3 +1,6 @@
+// StateA starts with a black screen and continues to show the first green text
+// it shows the second red text
+
 class StateA extends State {
   
   int ballWidth = 50;
@@ -23,7 +26,9 @@ class StateA extends State {
       return;
     }
     
-    background(0);
+    background(bgColor);
+    playArea.drawPlayArea();
+    
     noStroke();
     fill(greenColor);
     ellipse(xPos, yPos, ballWidth, ballWidth);

@@ -26,6 +26,7 @@ class PlayArea {
   public void drawPlayArea() {
     noFill();
     stroke(playAreaColor);
+    strokeWeight(1);
     //fill(playAreaColor);
     rect(x, y, areaWidth, areaHeight);
   }

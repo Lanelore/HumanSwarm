@@ -1,4 +1,8 @@
+// StateB consists of a green screen that morphs into a ball
+
 class StateB extends State {
+  // speed parameter
+  float lerpSpeed = 0.1;
   
   // Morph Setup
   // Two ArrayLists to store the vertices for two shapes
@@ -85,7 +89,7 @@ class StateB extends State {
       // Get the vertex we will draw
       PVector v2 = morph.get(i);
       // Lerp to the target
-      v2.lerp(v1, 0.1);
+      v2.lerp(v1, lerpSpeed);
       // Check how far we are from target
       totalDistance += PVector.dist(v1, v2);
     }

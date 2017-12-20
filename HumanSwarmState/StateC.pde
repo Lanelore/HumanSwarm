@@ -1,10 +1,15 @@
+// StateC starts with one circle in the middle
+// After floating around, it splits into 2 and 4 balls and combines again in the middle
+
 class StateC extends State {
+  // speed parameter
+  float animationSpeed = 200;  
   
-  int idOfStateA;
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;
   float ballWidth = playArea.areaHeight/2;
   float targetBallWidth = ballWidth;
+  float startSize = targetBallWidth;
   int counter = 0;
   float previousT = 0;
   int ballAmount = 1;
@@ -12,7 +17,6 @@ class StateC extends State {
   boolean delayGrowth = false;
   float delayTime = 0;
   boolean stopNow = false;
-  float animationSpeed = 200;
   boolean start1 = false;  // starts with the first previousT flip
   
   PVector[] pointsA = 
@@ -123,12 +127,11 @@ class StateC extends State {
     super();
   }
   
-  StateC(StateMgr _stateMgr, int _idOfStateA) {
+  StateC(StateMgr _stateMgr) {
     super(_stateMgr); 
-    idOfStateA = _idOfStateA;
   }
   
-  void setup() {  }
+  void setup() { }
   
   void draw() {    
     // only only draw if this state is active
@@ -177,7 +180,8 @@ class StateC extends State {
         start1 = true;       
         printCircleArc(points, 0);
         return;
-      } else if (counter + 4 >= points.length && !stopNow){
+      } else if (counter + 4 >= points.length && !stopNow && !delayGrowth){
+        println("targetBallWidth " + targetBallWidth);
         ballAmount *= 2;
         targetBallWidth = ballWidth/2;
         stopNow = true;
@@ -193,14 +197,11 @@ class StateC extends State {
     
     // increase the counter AFTER the old array ends when we have the NEW array
     // this gets called one frame after the previous if statement
-    if (t < previousT){  
-      println("t " + t + ", previousT " + previousT + ", start " + start1);
+    if (t < previousT && !delayGrowth){  
       if (counter + 4 >= points.length){
         counter = 0;
-        println("end me");
       } else{
         counter += 3;
-        println("increase");
       } 
     }     
     
@@ -233,23 +234,24 @@ class StateC extends State {
     if (x == referenceVector.x && y == referenceVector.y){
       delayGrowth = true;
     }
-    if (delayGrowth){
+    if (delayGrowth && ballWidth < startSize){
       delayTime += 1;
     }
     if (delayGrowth && delayTime > 300){      
-      delayGrowth = false;
+     // delayGrowth = false;
       delayTime = 0;
-      targetBallWidth = playArea.areaHeight/2;
+      targetBallWidth = startSize;
     } 
   }
 
   // state transition from inside of state:
   // after 3 seconds, next state is A
   int getNextStateID() {
-    if (stateMgr.getTimeInState() > 3000)
+    println("ballWidth " + ballWidth + ", startSize " + startSize + "; delayGrowth " + delayGrowth);
+    if (delayGrowth && ballWidth == startSize)
     {
-      //return idOfStateA; 
+      return stateID + 1; 
     }
     return super.getNextStateID();
-  }  
+  } 
 }
