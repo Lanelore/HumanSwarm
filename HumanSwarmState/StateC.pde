@@ -45,7 +45,7 @@ class StateC extends State {
       new PVector(centerX, centerY),
         new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/4),
         new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight),
-      new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75f - ballWidth/4),
     };
   
   // ends on the left side
@@ -60,18 +60,18 @@ class StateC extends State {
     new PVector(centerX, centerY),
       new PVector(centerX, playArea.y + playArea.areaHeight - ballWidth/4),
       new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight),
-    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75f - ballWidth/4),
   };
   
   // left side top #1 (to the right)
   PVector[] pointsC1 = 
   {
-    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75f - ballWidth/4),
       new PVector(playArea.x + ballWidth/4, playArea.y + ballWidth/2),
       new PVector(playArea.x + ballWidth, playArea.y + playArea.areaHeight / 5),
     new PVector(centerX, playArea.y + playArea.areaHeight / 5),
-      new PVector(playArea.x + playArea.areaWidth - ballWidth/1.5, playArea.y + playArea.areaHeight / 5), // outer
-      new PVector(centerX + playArea.areaHeight/2 - ballWidth/8, playArea.y + ballWidth/1.5),
+      new PVector(playArea.x + playArea.areaWidth - ballWidth/1.5f, playArea.y + playArea.areaHeight / 5), // outer
+      new PVector(centerX + playArea.areaHeight/2 - ballWidth/8, playArea.y + ballWidth/1.5f),
     new PVector(centerX + playArea.areaHeight/2 - ballWidth/8, centerY),
       new PVector(centerX + playArea.areaHeight/2 - ballWidth/8, centerY + playArea.areaHeight/2 - ballWidth/2), // outer
       new PVector(centerX, centerY),
@@ -81,7 +81,7 @@ class StateC extends State {
   // left side bottom #3 (to the top)
   PVector[] pointsC2 = 
   {
-    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+    new PVector(playArea.x + ballWidth/4, playArea.y + playArea.areaHeight * 0.75f - ballWidth/4),
       new PVector(playArea.x + ballWidth/4, playArea.y + ballWidth/2),
       new PVector(playArea.x + ballWidth, playArea.y + playArea.areaHeight / 5 * 3),
     new PVector(centerX, playArea.y + playArea.areaHeight / 5 * 3),
@@ -96,7 +96,7 @@ class StateC extends State {
   // right side top #2 (to the bottom)
   PVector[] pointsC3 = 
   {
-    new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+    new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75f - ballWidth/4),
       new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + ballWidth/2),
       new PVector(playArea.x + playArea.areaWidth - ballWidth, playArea.y + playArea.areaHeight / 5 * 2),
     new PVector(centerX, playArea.y + playArea.areaHeight / 5 * 2), 
@@ -111,12 +111,12 @@ class StateC extends State {
   // right side bottom #4 (to the left)
   PVector[] pointsC4 = 
   {
-    new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75 - ballWidth/4),
+    new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + playArea.areaHeight * 0.75f - ballWidth/4),
       new PVector(playArea.x + playArea.areaWidth - ballWidth/4, playArea.y + ballWidth/2),
       new PVector(playArea.x + playArea.areaWidth - ballWidth, playArea.y + playArea.areaHeight / 5 * 4),
     new PVector(centerX, playArea.y + playArea.areaHeight / 5 * 4),
-      new PVector(playArea.x + ballWidth/1.5, playArea.y + playArea.areaHeight / 5 * 4), // outer
-      new PVector(centerX - playArea.areaHeight/2 + ballWidth/8, playArea.y + playArea.areaHeight - ballWidth/1.5),
+      new PVector(playArea.x + ballWidth/1.5f, playArea.y + playArea.areaHeight / 5 * 4), // outer
+      new PVector(centerX - playArea.areaHeight/2 + ballWidth/8, playArea.y + playArea.areaHeight - ballWidth/1.5f),
     new PVector(centerX - playArea.areaHeight/2 + ballWidth/8, centerY),
       new PVector(centerX - playArea.areaHeight/2 + ballWidth/8, centerY - playArea.areaHeight/2 + ballWidth/2), // outer
       new PVector(centerX, centerY),
@@ -131,9 +131,9 @@ class StateC extends State {
     super(_stateMgr); 
   }
   
-  void setup() { }
+  public void setup() { }
   
-  void draw() {    
+  public void draw() {    
     // only only draw if this state is active
     if (!this.isActive()){
       return;
@@ -167,7 +167,7 @@ class StateC extends State {
     stopNow = false;
   }
   
-  void followPath(PVector[] points){   
+  public void followPath(PVector[] points){   
     // t describes the current percentage of this curve's animation (0 = start, 1 = end)
     float t = (frameCount / animationSpeed) % 1;  
     // futueT is the t that will come after the current t - used to detect a futue flip
@@ -211,7 +211,7 @@ class StateC extends State {
     printCircleArc(points, t); 
   }
   
-  void printCircleArc(PVector[] points, float t){
+  public void printCircleArc(PVector[] points, float t){
     noFill();
     stroke(bgColor);    
     PVector startPoint = new PVector(points[counter].x, points[counter].y);
@@ -246,7 +246,7 @@ class StateC extends State {
 
   // state transition from inside of state:
   // after 3 seconds, next state is A
-  int getNextStateID() {
+  public int getNextStateID() {
     println("ballWidth " + ballWidth + ", startSize " + startSize + "; delayGrowth " + delayGrowth);
     if (delayGrowth && ballWidth == startSize)
     {

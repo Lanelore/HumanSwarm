@@ -3,8 +3,8 @@ class State {
   int stateID; 
   StateMgr stateMgr;
   PlayArea playArea;
-  color bgColor = color(0);
-  color greenColor = color(0, 255, 0);
+  int bgColor = color(0);
+  int greenColor = color(0, 255, 0);
   
   State() {
   }
@@ -14,29 +14,29 @@ class State {
     this.playArea = stateMgr.playArea;
   }
   
-  void setup() {
+  public void setup() {
   }
   
-  void draw() {
+  public void draw() {
   }
   
-  int getNextStateID() {
+  public int getNextStateID() {
     return stateID;
   }
  
-  void setID(int _stateID) {
+  public void setID(int _stateID) {
     stateID = _stateID;
   }
 
-  int getID() {
+  public int getID() {
     return stateID;
   }
   
-  void setStateMgr(StateMgr _stateMgr) {
+  public void setStateMgr(StateMgr _stateMgr) {
     stateMgr = _stateMgr;
   }
   
-  boolean isActive(){
+  public boolean isActive(){
     return stateMgr.currentStateID == this.stateID ? true : false;
   }
 }

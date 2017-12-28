@@ -1,10 +1,15 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
 class PlayArea {
   
   float x;
   float y;
   float areaWidth;
   float areaHeight;
-  color playAreaColor = color(0, 0, 255);
+  int playAreaColor = color(0, 0, 255);
   
   PlayArea() {
     this.x = 0;
@@ -20,7 +25,7 @@ class PlayArea {
     this.areaHeight = playAreaHeight;
   }
 
-  void setup() {
+  public void setup() {
   }
   
   public void drawPlayArea() {

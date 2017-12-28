@@ -4,19 +4,34 @@
 
 class StateD extends State {
   // speed parameter
-  float translateSpeed = 0.5; // how many pixel per frame are traversed
-  float timeUntilStar = 200;
-  float armGrowthSpeed = 2;
+  float timeUntilStar = 50;
+  
+  float armGrowthSpeed = 1;
+  float ballGrowthSpeed = 1;
+  float centerGrowthSpeed = 1;
+  float scaleGrowthSpeed = 0.005f;
 
-  PShape s;
-  int scale = 5;
-  int shapeWidth = 237 * scale;
-  int shapeHeight = 113 * scale;
   float translate = 0;        // counts 
-  float ballWidth = playArea.areaHeight/2;
-  float armLength = 200; // final armLength
+  float targetBallWidth = playArea.areaHeight/2; // final ballWidth
+  float currentBallWidth = 0;
+  float currentCenterWidth = targetBallWidth;
+  float targetArmLength = 350; // final armLength  
+  float maxArmLength = targetArmLength; // final armLength
   float armWidth = 50;
   float currentArmLength = 0;
+  float targetScale = 0.45f;   // target scale
+  float currentScale = 1;
+  boolean growingStar = true;
+  
+  PVector center;
+  PVector point0;
+  PVector point60;
+  PVector point120;
+  PVector point180;
+  PVector point240;
+  PVector point300;
+  
+  int nextStateID;
 
   StateD() {
     super();
@@ -26,77 +41,142 @@ class StateD extends State {
     super(_stateMgr); 
   }
   
-  void setup(){
-    // The file "bot.svg" must be in the data folder
-    // of the current sketch to load successfully
-    s = loadShape("Path.svg");
-    s.disableStyle();  // Ignore the colors in the SVG
+  public void setup(){
+    center = new PVector(playArea.x + playArea.areaWidth/2, playArea.y + playArea.areaHeight/2);
+    point0 = pointAngle(center, 0, maxArmLength);
+    point60 = pointAngle(center, 60, maxArmLength);
+    point120 = pointAngle(center, 120, maxArmLength);
+    point180 = pointAngle(center, 180, maxArmLength);
+    point240 = pointAngle(center, 240, maxArmLength);
+    point300 = pointAngle(center, 300, maxArmLength);
+    
+    nextStateID = super.getNextStateID();
   }
   
-  void draw() {
+  public void draw() {
     if (!this.isActive()){
       return;
     }
-    
+        
     background(bgColor);
     playArea.drawPlayArea();    
+    
+    scaleImage(currentScale);
+    
     noStroke();
-    fill(greenColor);
+    fill(greenColor);   
     
+    // center
+    if (growingStar){
+      ellipse(center.x, center.y, targetBallWidth, targetBallWidth);  
+    } else {
+      if (currentCenterWidth > 0){
+        currentCenterWidth -= centerGrowthSpeed;
+      }
+      ellipse(center.x, center.y, currentCenterWidth, currentCenterWidth);  
+    }
     
-    translate(+width/2, +height/2);
-   // scale(0.5);
-    translate(-width/2, -height/2);
-    ellipse(playArea.x + playArea.areaWidth/2, playArea.y + playArea.areaHeight/2, ballWidth, ballWidth);
+    if (timeUntilStar > 0){
+      timeUntilStar -= 1;
+      return;
+    }
     
-    stroke(greenColor);    
-    drawStar();    
-    //   drawTunnels();
+    stroke(greenColor); 
+    
+    if (growingStar || currentCenterWidth > 0){
+      boolean starFinished = drawGrowingStar(); 
+      
+      if (starFinished){
+        boolean dotsFinished = drawDots();
+        
+        if (currentScale > targetScale){
+         currentScale -= scaleGrowthSpeed;
+        }    
+        
+        if (dotsFinished){
+          targetArmLength = 0;
+          growingStar = false;
+        }
+      }
+    } else {
+      boolean shrinkingFinished = drawShrinkingStar();
+      drawDots();
+      
+      if (shrinkingFinished){
+        nextStateID = stateID + 1;
+      }
+    }
   }   
   
-  void drawStar(){
+  public void scaleImage(float scalar){
+    translate(+width/2, +height/2);
+    scale(scalar);
+    translate(-width/2, -height/2);
+  }
+  
+  public boolean drawGrowingStar(){
     strokeWeight(armWidth);
-    if (currentArmLength < armLength){
+    
+    if (currentArmLength < targetArmLength){
       currentArmLength += armGrowthSpeed;
     }
-    lineAngle((int) (playArea.x + playArea.areaWidth/2), (int) (playArea.y + playArea.areaHeight/2), radians(0), currentArmLength); 
-    lineAngle((int) (playArea.x + playArea.areaWidth/2), (int) (playArea.y + playArea.areaHeight/2), radians(60), currentArmLength); 
-    lineAngle((int) (playArea.x + playArea.areaWidth/2), (int) (playArea.y + playArea.areaHeight/2), radians(120), currentArmLength); 
-    lineAngle((int) (playArea.x + playArea.areaWidth/2), (int) (playArea.y + playArea.areaHeight/2), radians(180), currentArmLength); 
-    lineAngle((int) (playArea.x + playArea.areaWidth/2), (int) (playArea.y + playArea.areaHeight/2), radians(240), currentArmLength);     
-    lineAngle((int) (playArea.x + playArea.areaWidth/2), (int) (playArea.y + playArea.areaHeight/2), radians(300), currentArmLength); 
+    
+    lineAngle((int) center.x, (int) center.y, radians(0), currentArmLength); 
+    lineAngle((int) center.x, (int) center.y, radians(60), currentArmLength);
+    lineAngle((int) center.x, (int) center.y, radians(120), currentArmLength);
+    lineAngle((int) center.x, (int) center.y, radians(180), currentArmLength);
+    lineAngle((int) center.x, (int) center.y, radians(240), currentArmLength);
+    lineAngle((int) center.x, (int) center.y, radians(300), currentArmLength);
+ 
+    return currentArmLength >= targetArmLength;
   }
   
-  void lineAngle(int x, int y, float angle, float length)
-  {
-    line(x, y, x+cos(angle)*length, y-sin(angle)*length);
-  }
-  
-  void drawTunnels(){
-    translate -= translateSpeed;
-    translate(translate, 0);
+  public boolean drawShrinkingStar(){
+    strokeWeight(armWidth);
     
-    int yDrawHeight = (height - shapeHeight) / 2;
-    shape(s, 0, yDrawHeight, shapeWidth, shapeHeight);   
-    
-    if (translate == shapeWidth * (-1)){
-        println("reached Width!");
+    if (currentArmLength > targetArmLength){
+      currentArmLength -= armGrowthSpeed;
     }
+
+    lineAngle((int) point0.x, (int) point0.y, radians(180), currentArmLength); 
+    lineAngle((int) point60.x, (int) point60.y, radians(240), currentArmLength);
+    lineAngle((int) point120.x, (int) point120.y, radians(300), currentArmLength);
+    lineAngle((int) point180.x, (int) point180.y, radians(0), currentArmLength);
+    lineAngle((int) point240.x, (int) point240.y, radians(60), currentArmLength);
+    lineAngle((int) point300.x, (int) point300.y, radians(120), currentArmLength);
+    
+    return currentArmLength <= targetArmLength;
   }
-}
-
-/*
   
-PShape s;
+  public boolean drawDots(){
+    noStroke();       
 
-void setup() {
-  size(100, 100);
-  // The file "bot.svg" must be in the data folder
-  // of the current sketch to load successfully
-  s = loadShape("bot.svg");
-}
+    if (currentBallWidth < targetBallWidth){
+      currentBallWidth += ballGrowthSpeed;
+    }
 
-void draw() {
-  shape(s, 10, 10, 80, 80);
+    ellipse(point0.x, point0.y, currentBallWidth, currentBallWidth);
+    ellipse(point60.x, point60.y, currentBallWidth, currentBallWidth);
+    ellipse(point120.x, point120.y, currentBallWidth, currentBallWidth);
+    ellipse(point180.x, point180.y, currentBallWidth, currentBallWidth);
+    ellipse(point240.x, point240.y, currentBallWidth, currentBallWidth);
+    ellipse(point300.x, point300.y, currentBallWidth, currentBallWidth);
+
+    return currentBallWidth >= targetBallWidth;
+  }
+  
+  public PVector pointAngle(PVector start, float angle, float length){
+    float radiansAngle = radians(angle);
+    return new PVector(start.x + cos(radiansAngle) * length, start.y - sin(radiansAngle) * length);
+  }
+  
+  public void lineAngle(float x, float y, float angle, float length)
+  {
+    line(x, y, x+cos(angle) * length, y-sin(angle) * length);
+  }
+  
+  // state transition from inside of state:
+  public int getNextStateID() {
+    return nextStateID;
+  } 
 }
-*/
