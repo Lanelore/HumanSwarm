@@ -1,5 +1,5 @@
-// StateF starts with a black screen 
-// a butterfly flies into the screen, draws a few arcs, leaves and reappears
+// StateG starts with a black screen 
+// a shark enters the screen, draws a few arcs, leaves and reappears
 // in the end it leaves for good
 class StateG extends State {
   // speed parameter
@@ -40,10 +40,19 @@ class StateG extends State {
     new PVector(width/3, 0 - shapeWidth),
       new PVector(width/3, playArea.y), 
       new PVector(centerX, playArea.y),
-    new PVector(centerX, centerY),
-      new PVector(centerX, playArea.y + playArea.areaHeight),
+    new PVector(centerX, playArea.y + playArea.areaHeight/3),
+      new PVector(centerX, playArea.y + playArea.areaHeight/3*2),
       new PVector(centerX + playArea.areaHeight/3, centerY + playArea.areaHeight/3),
-    new PVector(width + shapeWidth, centerY + playArea.areaHeight/3)
+    new PVector(width + shapeWidth, centerY + playArea.areaHeight/3),
+      new PVector(width + shapeWidth * 2, centerY + playArea.areaHeight/3),
+      new PVector(width/3, height*2),
+    new PVector(width/3, height + shapeWidth),
+      new PVector(width/3, playArea.y + playArea.areaHeight),
+      new PVector(playArea.x, playArea.y + playArea.areaHeight/3),
+    new PVector(centerX, playArea.y + playArea.areaHeight/3),
+      new PVector(playArea.x + playArea.areaWidth, playArea.y + playArea.areaHeight/3),
+      new PVector(width/3*2, playArea.y + playArea.areaHeight),
+    new PVector(width/3*2, height + shapeWidth)
   };
 
   StateG() {
@@ -78,7 +87,7 @@ class StateG extends State {
     } 
     
     if (finished){
-     // nextStateID = stateID + 1;
+      nextStateID = stateID + 1;
     }
     
     stopNow = false;
@@ -140,7 +149,7 @@ class StateG extends State {
     PVector endControlPoint = new PVector(points[counter + 2].x, points[counter + 2].y); 
     PVector endPoint = new PVector(points[counter + 3].x, points[counter + 3].y);
     // curve that I want an object/sprite to move down
-    bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
+    // bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
     
     noStroke();
     fill(255);
@@ -164,7 +173,7 @@ class StateG extends State {
     float a = calcRotationAngleInDegrees(point1, point2);
     
     // green circle that moves along the curve
-    ellipse(x, y, 20, 20);     
+    // ellipse(x, y, 20, 20);     
         
     pushMatrix();    
     fill(redColor);
@@ -225,7 +234,7 @@ class StateG extends State {
     return (float) angle;
   }
   
-    // state transition from inside of state:
+  // state transition from inside of state:
   public int getNextStateID() {
     return nextStateID;
   } 

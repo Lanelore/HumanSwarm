@@ -1,16 +1,18 @@
 // StateA starts with a black screen and continues to show the first green text
 // it shows the second red text
 class StateA extends State {
+  // speed parameter
+  float timer = 0;
+  float timeUntilGreenTextAppears = 100;
+  float timeUntilRedTextAppears = 300;
+  float timeUntilTextDisappears = 800;
   
-  int ballWidth = 50;
-  int ballGrowth = 1;
-  int speed = 1;
-  int xPos = ballWidth/2;
-  int xDir = speed;
-  int yPos = ballWidth/2;
-  int yDir = speed;
-  boolean xOnce = true;
-  boolean yOnce = true;
+  String green = "Berühre GRÜN";
+  String red = "Vermeide ROT";
+  
+  float centerX = playArea.x + playArea.areaWidth/2;
+  float centerY = playArea.y + playArea.areaHeight/2;
+  int nextStateID;
 
   StateA() {
     super();
@@ -18,6 +20,10 @@ class StateA extends State {
   
   StateA(StateMgr _stateMgr) {
     super(_stateMgr); 
+  }
+  
+  public void setup(){
+    nextStateID = super.getNextStateID();
   }
   
   public void draw() {
@@ -28,34 +34,27 @@ class StateA extends State {
     background(bgColor);
     playArea.drawPlayArea();
     
-    noStroke();
-    fill(greenColor);
-    ellipse(xPos, yPos, ballWidth, ballWidth);
-    xPos = xPos + xDir;
-    if (xPos > width - ballWidth/2)
-    {
-      xDir = -speed;
-    }
-    if (xPos < ballWidth/2)
-    {
-      xDir = speed;
-    }
-    yPos = yPos + yDir;
-    if (yPos > height - ballWidth/2)
-    {
-      yDir = -speed;
-    }
-    if (yPos < ballWidth/2)
-    {
-          yDir = speed;
+    timer += 1;
+    if (timer > timeUntilGreenTextAppears && timer < timeUntilTextDisappears){
+      textSize(40);
+      textAlign(CENTER, CENTER);
+        
+      fill(greenColor);
+      text(green, centerX, centerY - playArea.areaHeight/8);
+  
+      if (timer > timeUntilRedTextAppears){
+          fill(redColor);
+          text(red, centerX, centerY + playArea.areaHeight/8);
+      }
     }
     
-    if (ballWidth > height || ballWidth < 20)
-    {
-      ballGrowth = ballGrowth * (-1);
+    if (timer > timeUntilTextDisappears){
+      nextStateID = stateID + 1;
     }
-    
-    ballWidth = ballWidth + ballGrowth;
   }  
   
+  // state transition from inside of state:
+  public int getNextStateID() {
+    return nextStateID;
+  } 
 }

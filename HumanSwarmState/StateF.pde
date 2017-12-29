@@ -1,6 +1,7 @@
 // StateF starts with a black screen 
 // a butterfly flies into the screen, draws a few arcs, leaves and reappears
-// in the end it leaves for good
+// a second butterfly joins the first one
+// in the end they leave for good
 class StateF extends State {
   // speed parameter
   float animationSpeed = 200;  
