@@ -18,8 +18,8 @@ class StateF extends State {
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;
   PVector referenceVector = new PVector(centerX + playArea.areaHeight/2, centerY);
+  float bPrevAngle = 0;
   
-  boolean startB = false;
   boolean stopNow = false;
   boolean start1 = false;  // starts with the first previousT flip
   boolean finished = false;
@@ -128,7 +128,7 @@ class StateF extends State {
     if (futureT < t){
       if (!start1 && b){
         start1 = true;       
-        printCircleArc(points, 0, previousT);
+        printCircleArc(points, 0, previousT, b);
         return false;
       } else if (counter + 4 >= points.length && !stopNow){
         stopNow = true;
@@ -153,14 +153,14 @@ class StateF extends State {
       } 
     }     
 
-    printCircleArc(points, t, previousT); 
+    printCircleArc(points, t, previousT, b); 
     
     // save the current t to previousT so we can use both values to detect a flip in the next frame
     previousT = t;
     return false;
   }
   
-  public void printCircleArc(PVector[] points, float t, float previousT){
+  public void printCircleArc(PVector[] points, float t, float previousT, boolean b){
     noFill();
     stroke(100);    
     PVector startPoint = new PVector(points[counter].x, points[counter].y);
@@ -168,7 +168,7 @@ class StateF extends State {
     PVector endControlPoint = new PVector(points[counter + 2].x, points[counter + 2].y); 
     PVector endPoint = new PVector(points[counter + 3].x, points[counter + 3].y);
     // curve that I want an object/sprite to move down
-    bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
+    //bezier(startPoint.x, startPoint.y, startControlPoint.x, startControlPoint.y, endControlPoint.x, endControlPoint.y, endPoint.x, endPoint.y);
     
     noStroke();
     fill(255);
@@ -191,8 +191,19 @@ class StateF extends State {
     }
     float a = calcRotationAngleInDegrees(point1, point2);
     
+    if (b && bPrevAngle != 0){
+      println("bPrevAngle " + bPrevAngle + ", " + abs(bPrevAngle - a));
+      
+      if (abs(bPrevAngle - a) > 3){
+        a = bPrevAngle;
+      }
+    }
+    /*
+    println("angle " + a);
+    println("point1 " + point1 + ", point2 " + point2);
+    */
     // green circle that moves along the curve
-    ellipse(x, y, 20, 20);     
+    // ellipse(x, y, 20, 20);     
         
     pushMatrix();    
     fill(greenColor);
@@ -202,10 +213,8 @@ class StateF extends State {
     shape(s, 0, 0, shapeWidth, shapeHeight); 
     popMatrix();
     
-    // increase the ball size at the end of StateC
-    // use a refernce point to check when it's time and wait delayTime before starting the growth
-    if (x == referenceVector.x && y == referenceVector.y){
-      startB = true;
+    if (b){
+      bPrevAngle = a;
     }
   }
   
