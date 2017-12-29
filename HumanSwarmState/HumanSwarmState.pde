@@ -10,6 +10,7 @@ int STATEB;
 int STATEC;
 int STATED;
 int STATEE;
+int STATEF;
 
 void setup() {
   size(600, 400);
@@ -24,6 +25,7 @@ void setup() {
   STATEC = stateMgr.addState(new StateC(stateMgr));
   STATED = stateMgr.addState(new StateD(stateMgr));
   STATEE = stateMgr.addState(new StateE(stateMgr));
+  STATEF = stateMgr.addState(new StateF(stateMgr));
   
   stateMgr.setState(STATEA);
 }
@@ -61,6 +63,9 @@ void keyPressed() {
       break;
     case '5':
       stateMgr.setState(STATEE);
+      break;
+    case '6':
+      stateMgr.setState(STATEF);
       break;
   }
 } 

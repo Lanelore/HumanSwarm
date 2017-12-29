@@ -1,6 +1,6 @@
 // StateD starts with a circle in the middle. 
 // It growths star like paths in 6 directions and then pans into several paths
-// it ends in a line that vanishes completeley, leaving the area black
+// it ends in a line that vanishes completeley, leaving the area blackith ellipses at the end
 
 class StateD extends State {
   // speed parameter
@@ -72,7 +72,7 @@ class StateD extends State {
     } else {
       if (currentCenterWidth > 0){
         currentCenterWidth -= centerGrowthSpeed;
-      }
+      } 
       ellipse(center.x, center.y, currentCenterWidth, currentCenterWidth);  
     }
     
@@ -91,7 +91,9 @@ class StateD extends State {
         
         if (currentScale > targetScale){
          currentScale -= scaleGrowthSpeed;
-        }    
+        } else {
+          currentScale = targetScale;
+        }
         
         if (dotsFinished){
           targetArmLength = 0;

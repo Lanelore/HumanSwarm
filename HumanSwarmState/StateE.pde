@@ -4,15 +4,24 @@
 
 class StateE extends State {
   // speed parameter
-  float translateSpeed = 0.5f; // how many pixel per frame are traversed
+  float translateSpeed = 2; // how many pixel per frame are traversed
+  float lineGrowthSpeed = 2;
 
   PShape s;
-  int scale = 10;
+  int scale = 11;
   int shapeWidth = 237 * scale;
   int shapeHeight = 113 * scale;
   float translate = 0;        // counts 
   float ballWidth = playArea.areaHeight/2;
   float maxArmLength = 350;
+  float armWidth = 50;
+  float currentArmLength = 0;
+  float currentCenterLineCut = 0;
+  boolean linesFinished = false;
+  boolean pathsFinished = false;
+  boolean centerLineFinished = false;
+  float targetScale = 0.45f;   // target scale
+  float currentLineWidth = armWidth * targetScale;
   
   PVector center;
   PVector point0;
@@ -21,6 +30,8 @@ class StateE extends State {
   PVector point180;
   PVector point240;
   PVector point300;
+  
+  int nextStateID;
 
   StateE() {
     super();
@@ -31,7 +42,7 @@ class StateE extends State {
   }
   
   public void setup(){
-    // The file "bot.svg" must be in the data folder
+    // The file must be in the data folder
     // of the current sketch to load successfully
     s = loadShape("Path.svg");
     s.disableStyle();  // Ignore the colors in the SVG
@@ -43,6 +54,8 @@ class StateE extends State {
     point180 = pointAngle(center, 180, maxArmLength);
     point240 = pointAngle(center, 240, maxArmLength);
     point300 = pointAngle(center, 300, maxArmLength);
+    
+    nextStateID = super.getNextStateID();
   }
   
   public void draw() {
@@ -55,15 +68,32 @@ class StateE extends State {
     noStroke();
     fill(greenColor);
     
-    
+    pushMatrix();
     translate(+width/2, +height/2);
-    scale(0.5f);
-    translate(-width/2, -height/2);
-    ellipse(playArea.x + playArea.areaWidth/2, playArea.y + playArea.areaHeight/2, ballWidth, ballWidth);
+    scale(targetScale);
+    translate(-width/2, -height/2);   
     
     stroke(greenColor);    
-    drawDots();
-    drawTunnels();
+        
+    if (!pathsFinished){
+      if (linesFinished){
+        translateRight();
+      }   
+      
+      drawDots();
+      linesFinished = drawLines();
+      
+      if (linesFinished){
+        pathsFinished = drawPaths();
+      }
+    }
+    
+    popMatrix();
+    if (pathsFinished && !centerLineFinished){
+      centerLineFinished = centerLine();
+    } else if (centerLineFinished){
+      nextStateID = stateID + 1;
+    }
   }   
   
   public void drawDots(){
@@ -82,15 +112,69 @@ class StateE extends State {
     return new PVector(start.x + cos(radiansAngle) * length, start.y - sin(radiansAngle) * length);
   }
   
-  void drawTunnels(){
+  void translateRight(){
     translate -= translateSpeed;
     translate(translate, 0);
-    
-    int yDrawHeight = (height - shapeHeight) / 2;
-    shape(s, 0, yDrawHeight, shapeWidth, shapeHeight);   
-    
-    if (translate == shapeWidth * (-1)){
-        println("reached Width!");
-    }
   }
+  
+  boolean drawLines(){
+    if (currentArmLength < (maxArmLength * 2)){
+      currentArmLength += lineGrowthSpeed;
+    } 
+        
+    stroke(greenColor); 
+    strokeWeight(armWidth);
+    
+    line(point0.x, point0.y, point0.x+cos(0) * currentArmLength, point0.y-sin(0) * currentArmLength);
+    line(point60.x, point60.y, point60.x+cos(0) * currentArmLength, point60.y-sin(0) * currentArmLength);
+    line(point120.x, point120.y, point120.x+cos(0) * currentArmLength, point120.y-sin(0) * currentArmLength);
+    line(point180.x, point180.y, point180.x+cos(0) * currentArmLength, point180.y-sin(0) * currentArmLength);
+    line(point240.x, point240.y, point240.x+cos(0) * currentArmLength, point240.y-sin(0) * currentArmLength);    
+    line(point300.x, point300.y, point300.x+cos(0) * currentArmLength, point300.y-sin(0) * currentArmLength);
+    
+    return currentArmLength >= (maxArmLength * 2);
+  }
+  
+  boolean drawPaths(){ 
+    strokeWeight(armWidth);
+    
+    line(point0.x, point300.y, point0.x + width * 2, point300.y);
+    line(point0.x, point0.y, point0.x + width * 2, point0.y);
+    line(point0.x, point60.y, point0.x + width * 2, point60.y);
+
+    line(point0.x + width * 2, point300.y, point0.x + width * 2.5, point0.y);
+    line(point0.x + width * 2, point0.y, point0.x + width * 2.5, point0.y);
+    line(point0.x + width * 2, point60.y, point0.x + width * 2.5, point0.y);    
+    
+    noStroke();
+    shape(s, point0.x + width * 2.5 - armWidth, (height - shapeHeight) / 2, shapeWidth, shapeHeight); 
+    
+    stroke(greenColor); 
+    strokeWeight(armWidth);  
+    line(point0.x + width * 2.5 - armWidth*2 + shapeWidth, point0.y, point0.x + width * 3.5 - armWidth + shapeWidth + width / targetScale, point0.y);
+    
+    if (translate * (-1) >= (point0.x + width * 3.5 - armWidth*2 + shapeWidth)){
+      return true;
+    }
+    return false;
+  }
+  
+  boolean centerLine(){
+    if (currentCenterLineCut < width/2){
+      currentCenterLineCut += lineGrowthSpeed;
+    } else if (currentLineWidth > 1){
+      currentLineWidth -=1;
+    }
+    
+    stroke(greenColor); 
+    strokeWeight(currentLineWidth); 
+    line(currentCenterLineCut, center.y, width - currentCenterLineCut, center.y);
+        
+    return currentLineWidth <= 1;
+  }
+  
+  // state transition from inside of state:
+  public int getNextStateID() {
+    return nextStateID;
+  } 
 }
