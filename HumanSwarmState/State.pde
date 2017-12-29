@@ -5,6 +5,7 @@ class State {
   PlayArea playArea;
   int bgColor = color(0);
   int greenColor = color(0, 255, 0);
+  int redColor = color(255, 0, 0);
   
   State() {
   }

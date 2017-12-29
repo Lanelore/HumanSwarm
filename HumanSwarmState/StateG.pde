@@ -1,14 +1,14 @@
 // StateF starts with a black screen 
 // a butterfly flies into the screen, draws a few arcs, leaves and reappears
 // in the end it leaves for good
-class StateF extends State {
+class StateG extends State {
   // speed parameter
   float animationSpeed = 200;  
   
   PShape s;
   float scale = 0.5f;
-  int shapeWidth = (int) (93 * scale);
-  int shapeHeight = (int) (61 * scale);
+  int shapeWidth = (int) (206 * scale);
+  int shapeHeight = (int) (367 * scale);
   
   int counter = 0;
   float previousT = 0;
@@ -48,43 +48,19 @@ class StateF extends State {
       new PVector(centerX, centerY),
     new PVector(centerX, height + shapeWidth)
   };
-  
- PVector[] pointsB = 
-  {
-    new PVector(-shapeWidth, centerY),
-      new PVector(-shapeWidth, centerY),
-      new PVector(-shapeWidth, centerY),
-    new PVector(-shapeWidth, centerY),
-      new PVector(-shapeWidth, centerY),
-      new PVector(-shapeWidth, centerY),
-    
-    new PVector(-shapeWidth, centerY),
-      new PVector(playArea.x, centerY),      
-      new PVector(centerX - shapeWidth, playArea.y + playArea.areaHeight),
-    new PVector(centerX - shapeWidth, centerY),
-      new PVector(centerX - shapeWidth, playArea.y),
-      new PVector(centerX, centerY - playArea.areaHeight/3),
-    new PVector(centerX + playArea.areaHeight/3, centerY - playArea.areaHeight/3),
-      new PVector(playArea.x + playArea.areaWidth, centerY - playArea.areaHeight/3),
-      new PVector(playArea.x + playArea.areaWidth, centerY),
-    new PVector(centerX + playArea.areaHeight/3, centerY),
-      new PVector(centerX, centerY),
-      new PVector(centerX, centerY),
-    new PVector(centerX, 0 - shapeWidth)
-  };
 
-  StateF() {
+  StateG() {
     super();
   }
   
-  StateF(StateMgr _stateMgr) {
+  StateG(StateMgr _stateMgr) {
     super(_stateMgr); 
   }
   
   public void setup(){
     // The file must be in the data folder
     // of the current sketch to load successfully
-    s = loadShape("Butterfly.svg");
+    s = loadShape("Shark.svg");
     s.disableStyle();  // Ignore the colors in the SVG
     nextStateID = super.getNextStateID();
   }
@@ -98,15 +74,14 @@ class StateF extends State {
     playArea.drawPlayArea();
     
     noStroke();
-    fill(greenColor);
+    fill(redColor);
     
     if (!finished){
-      finished = followPath(pointsA, false);   
-      followPath(pointsB, true);     
+      finished = followPath(pointsA);      
     } 
     
     if (finished){
-      nextStateID = stateID + 1;
+     // nextStateID = stateID + 1;
     }
     
     stopNow = false;
@@ -117,7 +92,7 @@ class StateF extends State {
     previousTCopy = previousT;
   }
   
-  public boolean followPath(PVector[] points, boolean b){   
+  public boolean followPath(PVector[] points){   
     // t describes the current percentage of this curve's animation (0 = start, 1 = end)
     t = (frameCount / animationSpeed) % 1;  
     // futueT is the t that will come after the current t - used to detect a futue flip
@@ -126,7 +101,7 @@ class StateF extends State {
     // increase the ball amount and target width BEFORE the array ends
     // this ensures that this function always gets called with the correct points array
     if (futureT < t){
-      if (!start1 && b){
+      if (!start1){
         start1 = true;       
         printCircleArc(points, 0, previousT);
         return false;
@@ -195,7 +170,7 @@ class StateF extends State {
     ellipse(x, y, 20, 20);     
         
     pushMatrix();    
-    fill(greenColor);
+    fill(redColor);
     translate(x, y);
     shapeMode(CENTER);
     rotate(radians(a)); //frameCount
@@ -247,7 +222,7 @@ class StateF extends State {
     // we can assume that atan2 will not return a negative value
     // greater than one partial rotation
     if (angle < 0) {
-        angle += 360;
+       angle += 360;
     }
 
     return (float) angle;
