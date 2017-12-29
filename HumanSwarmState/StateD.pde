@@ -1,6 +1,5 @@
 // StateD starts with a circle in the middle. 
-// It growths star like paths in 6 directions and then pans into several paths
-// it ends in a line that vanishes completeley, leaving the area blackith ellipses at the end
+// It growths star like paths in 6 directions 
 
 class StateD extends State {
   // speed parameter
@@ -9,7 +8,7 @@ class StateD extends State {
   float armGrowthSpeed = 1;
   float ballGrowthSpeed = 1;
   float centerGrowthSpeed = 1;
-  float scaleGrowthSpeed = 0.005f;
+  float scaleGrowthSpeed = 0.002f;
 
   float translate = 0;        // counts 
   float targetBallWidth = playArea.areaHeight/2; // final ballWidth
@@ -90,7 +89,7 @@ class StateD extends State {
         boolean dotsFinished = drawDots();
         
         if (currentScale > targetScale){
-         currentScale -= scaleGrowthSpeed;
+          currentScale -= scaleGrowthSpeed;
         } else {
           currentScale = targetScale;
         }

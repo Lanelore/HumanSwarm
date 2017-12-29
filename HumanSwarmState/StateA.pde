@@ -3,9 +3,9 @@
 class StateA extends State {
   // speed parameter
   float timer = 0;
-  float timeUntilGreenTextAppears = 100;
-  float timeUntilRedTextAppears = 300;
-  float timeUntilTextDisappears = 800;
+  float timeUntilGreenTextAppears = 500;
+  float timeUntilRedTextAppears = 900;
+  float timeUntilTextDisappears = 1500;
   
   String green = "Berühre GRÜN";
   String red = "Vermeide ROT";

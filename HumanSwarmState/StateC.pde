@@ -3,7 +3,9 @@
 
 class StateC extends State {
   // speed parameter
-  float animationSpeed = 200;  
+  float animationSpeed = 400;  
+  float morphSpeed = 0.5;
+  float growDelayTime = 600;
   
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;
@@ -18,6 +20,8 @@ class StateC extends State {
   float delayTime = 0;
   boolean stopNow = false;
   boolean start1 = false;  // starts with the first previousT flip
+  
+  int nextStateID;
   
   PVector[] pointsA = 
     {
@@ -131,7 +135,9 @@ class StateC extends State {
     super(_stateMgr); 
   }
   
-  public void setup() { }
+  public void setup() { 
+    nextStateID = super.getNextStateID();
+  }
   
   public void draw() {    
     // only only draw if this state is active
@@ -145,9 +151,9 @@ class StateC extends State {
     
     // increase or decrease to the defined targetWidth
     if (ballWidth > targetBallWidth){        
-      ballWidth -= 1;
+      ballWidth -= morphSpeed;
     } else if (ballWidth < targetBallWidth){
-      ballWidth += 1;
+      ballWidth += morphSpeed;
     }
       
     // create the defined amount of balls with their curved lines
@@ -171,7 +177,7 @@ class StateC extends State {
     // t describes the current percentage of this curve's animation (0 = start, 1 = end)
     float t = (frameCount / animationSpeed) % 1;  
     // futueT is the t that will come after the current t - used to detect a futue flip
-    float futureT = ((frameCount + 1) / 200.0f) % 1;  
+    float futureT = ((frameCount + 1) / animationSpeed) % 1;  
         
     // increase the ball amount and target width BEFORE the array ends
     // this ensures that this function always gets called with the correct points array
@@ -181,11 +187,12 @@ class StateC extends State {
         printCircleArc(points, 0);
         return;
       } else if (counter + 4 >= points.length && !stopNow && !delayGrowth){
-        println("targetBallWidth " + targetBallWidth);
         ballAmount *= 2;
         targetBallWidth = ballWidth/2;
         stopNow = true;
-      }       
+      } else if (ballAmount >=4 && counter + 4 >= points.length && !stopNow){
+        nextStateID = stateID + 1;
+      } 
     }     
     
     // reset the t value until the animation actually starts - the ball stays in the middle
@@ -237,21 +244,26 @@ class StateC extends State {
     if (delayGrowth && ballWidth < startSize){
       delayTime += 1;
     }
-    if (delayGrowth && delayTime > 300){      
+    if (delayGrowth && delayTime > growDelayTime){      
      // delayGrowth = false;
       delayTime = 0;
       targetBallWidth = startSize;
     } 
   }
-
+/*
   // state transition from inside of state:
   // after 3 seconds, next state is A
   public int getNextStateID() {
-    println("ballWidth " + ballWidth + ", startSize " + startSize + "; delayGrowth " + delayGrowth);
     if (delayGrowth && ballWidth == startSize)
     {
       return stateID + 1; 
     }
     return super.getNextStateID();
+  } 
+  */
+  
+    // state transition from inside of state:
+  public int getNextStateID() {
+    return nextStateID;
   } 
 }
