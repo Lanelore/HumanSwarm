@@ -1,9 +1,11 @@
 
 // Version 4.1
 
-float cursor_size = 25;
+int scaleFactor = 4;
+
+float cursor_size = 75/scaleFactor;
 PFont font;
-int scaleFactor = 5;
+
 int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
 int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
 int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -15,6 +17,9 @@ float opacityPrevious = 40;
 int numberPerson = 0;
 int frame = 0;
 long time;
+
+int duration = 1200;
+String file = "tracking.csv";
 
 Table table;
 
@@ -34,20 +39,29 @@ void setup()
   textFont(font, 18);
   textAlign(CENTER, CENTER);
 
-  initTracking(false, wallHeight*scaleFactor);
-  table = loadTable("tracking.csv", "header");
+  initTracking(false, wallHeight * scaleFactor);
+  table = loadTable(file, "header");
   time = System.currentTimeMillis();
   
-  ball = new Animation("ball",6);
+  
+ 
 }
 
 void draw()
 {
 
   clearWindow();
+  
+    noStroke();
+    fill(255, 0, 0);
+    ellipse(300,  wallHeight+500, 300, 200);
+    fill(0);
+    
+    loadPixels();
 
-  if (frame == 600) {
-    saveTable(table, "tracking.csv");
+  if (frame == duration) {
+    saveTable(table, file);
+    //ToDo: sort table?
     exit();
   }
 
@@ -94,9 +108,20 @@ void readCsv() {
   for (TableRow row : table.findRows(frameS, "frame")) {
 
     numberPerson++;
-
+    
     noStroke();
+    
+    
+    //color pixels depending on shape/state
+    
+    if(red(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250){
+    fill(0,0,255, opacityPrevious);
+    }
+    
+    else{
     fill(255, 255, 255, opacityPrevious);
+    }
+    
     ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size, cursor_size);
     fill(0);
     
@@ -114,8 +139,8 @@ void writeCsv(int trackID) {
   row.setLong("time", time);
   row.setInt("frame", frame);
   row.setInt("id", trackID);
-  row.setFloat("x", GetX(trackID));
-  row.setFloat("y", GetY(trackID));
+  row.setFloat("x", GetX(trackID)*scaleFactor);
+  row.setFloat("y", GetY(trackID)*scaleFactor);
 }
 
 void currentTrackingData() {
@@ -125,10 +150,18 @@ void currentTrackingData() {
 
     numberPerson++;
 
-    //noStroke();
-    //fill(255, 255, 255);
-    //ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
-    //fill(0);
+    noStroke();
+    
+    if(red(pixels[GetX(trackID)*width+GetY(trackID)]) == 255){
+    fill(0,255,0);
+    }
+    
+    else{
+     fill(255, 255, 255);
+    }
+   
+    ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
+    fill(0);
   
     if (showID)
       text(GetCursorID(trackID), GetX(trackID), GetY(trackID));
@@ -166,5 +199,5 @@ void clearWindow() {
   rect(0, 0, windowWidth, wallHeight);
   fill(150);
   text((int)frameRate + " FPS", width / 2, 10);
-  text(numberPerson + " tracked person", width / 2, 30);
+  text(numberPerson + " tracked person", width*scaleFactor / 2, 30);
 }
