@@ -95,7 +95,7 @@ class StateF extends State {
       return;
     }
     
-    background(bgColor);
+    //background(bgColor);
     playArea.drawPlayArea();
     
     noStroke();

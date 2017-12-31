@@ -146,7 +146,7 @@ class StateC extends State {
     }
         
     // draw the background once and draw all other balls and paths above via the specific followPath
-    background(bgColor);
+    //background(bgColor);
     playArea.drawPlayArea();
     
     // increase or decrease to the defined targetWidth

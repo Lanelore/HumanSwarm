@@ -31,7 +31,7 @@ class StateA extends State {
       return;
     }
     
-    background(bgColor);
+    //background(bgColor);
     playArea.drawPlayArea();
     
     timer += 1;

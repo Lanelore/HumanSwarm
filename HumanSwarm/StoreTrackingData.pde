@@ -1,81 +1,6 @@
 
 // Version 4.1
 
-int scaleFactor = 4;
-
-float cursor_size = 75/scaleFactor;
-PFont font;
-
-int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
-int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
-int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
-
-Animation ball;
-
-boolean showID = false;
-float opacityPrevious = 40;
-int numberPerson = 0;
-int frame = 0;
-long time;
-
-int duration = 1200;
-String file = "tracking.csv";
-
-Table table;
-
-int show = 0xffff;
-
-void settings()
-{
-  size(windowWidth, windowHeight);
-}
-
-void setup()
-{
-  noStroke();
-  fill(0);
-
-  font = createFont("Arial", 18);
-  textFont(font, 18);
-  textAlign(CENTER, CENTER);
-
-  initTracking(false, wallHeight * scaleFactor);
-  table = loadTable(file, "header");
-  time = System.currentTimeMillis();
-  
-  
- 
-}
-
-void draw()
-{
-
-  clearWindow();
-  
-    noStroke();
-    fill(255, 0, 0);
-    ellipse(300,  wallHeight+500, 300, 200);
-    fill(0);
-    
-    loadPixels();
-
-  if (frame == duration) {
-    saveTable(table, file);
-    //ToDo: sort table?
-    exit();
-  }
-
-  numberPerson = 0;
-
-  //show previous trackers
-  readCsv();
-
-  //show current trackers
-  currentTrackingData();
-
-  frame++;
-}
-
 void calculateOrientation() {
 
   // show the motion path of each track on the floor    
@@ -111,15 +36,14 @@ void readCsv() {
     
     noStroke();
     
-    
     //color pixels depending on shape/state
     
-    if(red(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250){
-    fill(0,0,255, opacityPrevious);
+    if(green(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250){
+    fill(255,255,0, opacityPrevUsers);
     }
     
     else{
-    fill(255, 255, 255, opacityPrevious);
+    fill(255, 255, 255, opacityPrevUsers);
     }
     
     ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size, cursor_size);
@@ -152,8 +76,8 @@ void currentTrackingData() {
 
     noStroke();
     
-    if(red(pixels[GetX(trackID)*width+GetY(trackID)]) == 255){
-    fill(0,255,0);
+    if(green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
+    fill(0,0,255, opacityPrevUsers);
     }
     
     else{
@@ -170,24 +94,6 @@ void currentTrackingData() {
   }
 }
 
-void keyPressed()
-{
-  switch(key)
-  {
-  case 'p':
-    //ShowPath = !ShowPath;
-    break;
-  case 't':
-    //ShowTrack = !ShowTrack;
-    break;
-  }
-
-  // use keys <0> .. <9> to toggle foot drawing of tracks 0 .. 9
-  if (key >= '0' && key <= '9')
-  {
-    show = show ^ (int)pow(2, key - '0');
-  }
-}
 
 void clearWindow() {
   // clear background with black

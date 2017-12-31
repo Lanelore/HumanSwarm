@@ -25,7 +25,7 @@ class StateH extends State {
       return;
     }
     
-    background(bgColor);
+    //background(bgColor);
     playArea.drawPlayArea();
     
     if (timeUntilNextState > 0){

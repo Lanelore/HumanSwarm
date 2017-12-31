@@ -57,7 +57,7 @@ class StateD extends State {
       return;
     }
         
-    background(bgColor);
+    //background(bgColor);
     playArea.drawPlayArea();    
     
     scaleImage(currentScale);
