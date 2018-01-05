@@ -15,7 +15,7 @@ class StateB extends State {
   // in the window
   ArrayList<PVector> morph = new ArrayList<PVector>();
   
-  int squareWidth = width;
+  int squareWidth = windowWidth/2;
   float circelWidth = playArea.areaHeight/2;
   
   // This boolean variable will control if we are morphing to a circle or square
@@ -108,7 +108,7 @@ class StateB extends State {
     }
     
     // Draw relative to center
-    translate(width/2, height/2);
+    translate(playArea.x + playArea.centerX, playArea.y + playArea.centerY);
     // Draw a polygon that makes up all the vertices
     beginShape();
     for (PVector v : morph) {

@@ -14,11 +14,11 @@ class StateD extends State {
   float targetBallWidth = playArea.areaHeight/2; // final ballWidth
   float currentBallWidth = 0;
   float currentCenterWidth = targetBallWidth;
-  float targetArmLength = 350; // final armLength  
+  float targetArmLength = playArea.areaWidth/1.5; // final armLength  
   float maxArmLength = targetArmLength; // final armLength
   float armWidth = 50;
   float currentArmLength = 0;
-  float targetScale = 0.45f;   // target scale
+  float targetScale = 0.4f;   // target scale
   float currentScale = 1;
   boolean growingStar = true;
   
@@ -110,9 +110,9 @@ class StateD extends State {
   }   
   
   public void scaleImage(float scalar){
-    translate(+width/2, +height/2);
+    translate(playArea.x + (playArea.areaWidth/2), playArea.y + (playArea.areaHeight/2));
     scale(scalar);
-    translate(-width/2, -height/2);
+    translate((-1) * (playArea.x + (playArea.areaWidth/2)), (-1) * (playArea.y + (playArea.areaHeight/2)));
   }
   
   public boolean drawGrowingStar(){

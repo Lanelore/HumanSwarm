@@ -4,23 +4,23 @@
 
 class StateE extends State {
   // speed parameter
-  float translateSpeed = 1; // how many pixel per frame are traversed
-  float lineGrowthSpeed = 1;
+  float translateSpeed = 1.5; // how many pixel per frame are traversed
+  float lineGrowthSpeed = 1.5;
 
   PShape s;
-  int scale = 11;
+  int scale = 15;
   int shapeWidth = 237 * scale;
   int shapeHeight = 113 * scale;
   float translate = 0;        // counts 
   float ballWidth = playArea.areaHeight/2;
-  float maxArmLength = 350;
+  float maxArmLength = playArea.areaWidth/1.5;
   float armWidth = 50;
   float currentArmLength = 0;
   float currentCenterLineCut = 0;
   boolean linesFinished = false;
   boolean pathsFinished = false;
   boolean centerLineFinished = false;
-  float targetScale = 0.45f;   // target scale
+  float targetScale = 0.4f;   // target scale
   float currentLineWidth = armWidth * targetScale;
   
   PVector center;
@@ -69,9 +69,9 @@ class StateE extends State {
     fill(greenColor);
     
     pushMatrix();
-    translate(+width/2, +height/2);
+    translate(playArea.x + (playArea.areaWidth/2), playArea.y + (playArea.areaHeight/2));
     scale(targetScale);
-    translate(-width/2, -height/2);   
+    translate((-1) * (playArea.x + (playArea.areaWidth/2)), (-1) * (playArea.y + (playArea.areaHeight/2)));
     
     stroke(greenColor);    
         
@@ -147,7 +147,7 @@ class StateE extends State {
     line(point0.x + width * 2, point60.y, point0.x + width * 2.5, point0.y);    
     
     noStroke();
-    shape(s, point0.x + width * 2.5 - armWidth, (height - shapeHeight) / 2, shapeWidth, shapeHeight); 
+    shape(s, point0.x + windowWidth * 2.5 - armWidth, wallHeight + ((floorHeight - shapeHeight) / 2), shapeWidth, shapeHeight); 
     
     stroke(greenColor); 
     strokeWeight(armWidth);  

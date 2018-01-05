@@ -21,6 +21,7 @@ float cursor_size = 75/scaleFactor;
 int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
 int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
 int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
+int floorHeight = windowHeight - wallHeight;
 
 float opacityPrevUsers = 60;
 int numberPerson = 0;

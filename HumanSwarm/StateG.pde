@@ -28,31 +28,31 @@ class StateG extends State {
   
   PVector[] pointsA = 
   {
-    new PVector(width + shapeWidth, centerY),
+    new PVector(windowWidth + shapeWidth, centerY),
       new PVector(playArea.x + playArea.areaWidth, centerY),      
       new PVector(centerX + playArea.areaHeight/2, centerY + playArea.areaHeight/3),
     new PVector(centerX, centerY + playArea.areaHeight/3), 
       new PVector(centerX - playArea.areaHeight/2, centerY + playArea.areaHeight/3),
       new PVector(playArea.x, centerY),      
     new PVector(0 - shapeWidth, centerY),
-      new PVector(0 - width, centerY),      
-      new PVector(width/3, 0 - width/2), 
-    new PVector(width/3, 0 - shapeWidth),
-      new PVector(width/3, playArea.y), 
+      new PVector(0 - windowWidth, centerY),      
+      new PVector(windowWidth/3, wallHeight - windowWidth/2), 
+    new PVector(windowWidth/3, wallHeight - shapeWidth),
+      new PVector(windowWidth/3, playArea.y), 
       new PVector(centerX, playArea.y),
     new PVector(centerX, playArea.y + playArea.areaHeight/3),
       new PVector(centerX, playArea.y + playArea.areaHeight/3*2),
       new PVector(centerX + playArea.areaHeight/3, centerY + playArea.areaHeight/3),
-    new PVector(width + shapeWidth, centerY + playArea.areaHeight/3),
-      new PVector(width + shapeWidth * 2, centerY + playArea.areaHeight/3),
-      new PVector(width/3, height*2),
-    new PVector(width/3, height + shapeWidth),
-      new PVector(width/3, playArea.y + playArea.areaHeight),
+    new PVector(windowWidth + shapeWidth, centerY + playArea.areaHeight/3),
+      new PVector(windowWidth + shapeWidth * 2, centerY + playArea.areaHeight/3),
+      new PVector(windowWidth/3, windowHeight*2),
+    new PVector(windowWidth/3, windowHeight + shapeWidth),
+      new PVector(windowWidth/3, playArea.y + playArea.areaHeight),
       new PVector(playArea.x, playArea.y + playArea.areaHeight/3),
     new PVector(centerX, playArea.y + playArea.areaHeight/3),
       new PVector(playArea.x + playArea.areaWidth, playArea.y + playArea.areaHeight/3),
-      new PVector(width/3*2, playArea.y + playArea.areaHeight),
-    new PVector(width/3*2, height + shapeWidth)
+      new PVector(windowWidth/3*2, playArea.y + playArea.areaHeight),
+    new PVector(windowWidth/3*2, windowHeight + shapeWidth)
   };
 
   StateG() {

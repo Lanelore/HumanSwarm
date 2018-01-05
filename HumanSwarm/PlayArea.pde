@@ -10,6 +10,8 @@ class PlayArea {
   float areaWidth;
   float areaHeight;
   int playAreaColor = color(0, 0, 255);
+  float centerX;
+  float centerY;
   
   PlayArea() {
     this.x = 0;
@@ -23,6 +25,8 @@ class PlayArea {
     this.y = playAreaStartY;
     this.areaWidth = playAreaWidth;
     this.areaHeight = playAreaHeight;
+    centerX = areaWidth/2;
+    centerY = areaHeight/2;
   }
 
   public void setup() {

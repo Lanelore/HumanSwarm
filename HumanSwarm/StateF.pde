@@ -47,9 +47,10 @@ class StateF extends State {
     new PVector(centerX - playArea.areaHeight/3, centerY),
       new PVector(centerX, centerY),
       new PVector(centerX, centerY),
-    new PVector(centerX, height + shapeWidth)
+    new PVector(centerX, windowHeight + shapeWidth)
   };
   
+ // second butterfly
  PVector[] pointsB = 
   {
     new PVector(-shapeWidth, centerY),
@@ -71,7 +72,7 @@ class StateF extends State {
     new PVector(centerX + playArea.areaHeight/3, centerY),
       new PVector(centerX, centerY),
       new PVector(centerX, centerY),
-    new PVector(centerX, 0 - shapeWidth)
+    new PVector(centerX, wallHeight - shapeWidth)
   };
 
   StateF() {
