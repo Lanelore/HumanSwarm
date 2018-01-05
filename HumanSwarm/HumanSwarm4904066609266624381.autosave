@@ -17,18 +17,12 @@ int STATEI;
 
 int scaleFactor = 4;
 float cursor_size = 75/scaleFactor;
-float cursor_size_big = 100/scaleFactor;
+float cursor_size_big = 150/scaleFactor;
 
 int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
-int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
-int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
-int floorHeight = windowHeight - wallHeight;
-
-float opacityPrevUsers = 60;
-float opacityPrevUsersBright = 150;
-
 int numberPerson = 0;
 int frame = 0;
+float opacityPrevUsers = 60;= 0;
 long time;
 int duration = 500000;
 boolean showID = false;
@@ -118,31 +112,31 @@ void keyPressed() {
  
   switch(key)
   {
-    case '0':
+    case '1':
       stateMgr.setState(STATEA);
       break;
-    case '1':
+    case '2':
       stateMgr.setState(STATEB);
       break;
-    case '2':
+    case '3':
       stateMgr.setState(STATEC);
       break;
-    case '3':
+    case '4':
       stateMgr.setState(STATED);
       break;
-    case '4':
+    case '5':
       stateMgr.setState(STATEE);
       break;
-    case '5':
+    case '6':
       stateMgr.setState(STATEF);
       break;
-    case '6':
+    case '7':
       stateMgr.setState(STATEG);
       break;
-    case '7':
+    case '8':
       stateMgr.setState(STATEH);
       break;
-    case '8':
+    case '9':
       stateMgr.setState(STATEI);
       break;
   case 'p':

@@ -37,7 +37,7 @@ class StateH extends State {
     }
     
     // visualize all previous user data - call the function for each user position
-    visualizeUser(centerX, centerY);
+    // visualizeUser(centerX, centerY);
   }  
   
   public void visualizeUser(float x, float y){

@@ -39,23 +39,18 @@ void readCsv() {
     //color pixels depending on shape/state
     
     if(green(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250){
-    fill(255,255,0, opacityPrevUsersBright);
-    } else if (red(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 50){
-    fill(50,0,0, opacityPrevUsersBright);
+    fill(255,255,0, opacityPrevUsers);
     }
     
     else{
     fill(255, 255, 255, opacityPrevUsers);
     }
     
-    // special treatment for the old users when they turn red during phase H (7)
     if (stateMgr.currentStateID == 7){
-      fill(255, 0, 0, opacityPrevUsersBright);
-      ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size_big, cursor_size_big);
-    } else {  
-      ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size, cursor_size);
+      fill(255, 0, 0, opacityPrevUsers);
     }
     
+    ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size, cursor_size);
     fill(0);
     
      //ball.display(row.getFloat("x") * 3, row.getFloat("y") * 3);
@@ -85,25 +80,22 @@ void currentTrackingData() {
 
     noStroke();
     
-    // original color code for current users
-    /*
     if(green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
-    fill(0,0,255, opacityPrevUsers);
-    }
-    */
-    
-    // new color code for current users (WIP)
-    if(green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
-      fill(255,255,0, opacityPrevUsersBright);
-    } else if (red(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
-      fill(50,0,0, opacityPrevUsersBright);
+    fill(0, 0, 255);
     }
     
     else{
      fill(255, 255, 255);
     }
-   
-    ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
+    
+    // special treatment for the old users when they turn red during phase H (7)
+    if (stateMgr.currentStateID == 7){
+      fill(255, 0, 0);
+      ellipse(GetX(trackID), GetY(trackID), cursor_size_big, cursor_size_big);
+    } else {    
+      ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
+    }
+    
     fill(0);
   
     if (showID)
