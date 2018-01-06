@@ -24,13 +24,13 @@ int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
 int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
 int floorHeight = windowHeight - wallHeight;
 
-float opacityPrevUsers = 60;
-float opacityPrevUsersBright = 150;
+float opacityPrevUsers = 30;
+float opacityPrevUsersBright = 80;
 
 int numberPerson = 0;
 int frame = 0;
 long time;
-int duration = 500000;
+int duration = 3600;
 boolean showID = false;
 
 String file = "tracking.csv";
@@ -44,20 +44,13 @@ void settings()
 }
 
 void setup() {
- 
-  
-  //size(600, 400);
-  //smooth();
-  //noStroke();  
   
   noStroke();
   fill(0);
-
+  
   initTracking(false, wallHeight * scaleFactor);
   table = loadTable(file, "header");
   time = System.currentTimeMillis();
-  
-  //PlayArea playArea = new PlayArea(width * 0.1, height * 0.1, width * 0.8, height * 0.8);
   
   PlayArea playArea = new PlayArea(width * 0.1, wallHeight + wallHeight * 0.1, width * 0.8, wallHeight * 0.8);
   stateMgr = new StateMgr(playArea);
@@ -83,20 +76,11 @@ void draw() {
   
   stateMgr.getCurrentState().draw();
   stateMgr.updateStates();
-  /*
-  // state transition from application:
-  // switch from state B to state A or C after 2 seconds (randomly)
-  if (stateMgr.getCurrentStateID() == STATEB && stateMgr.getTimeInState() > 2000) {
-    if (int (random(2)) == 0)
-      stateMgr.setState(STATEA);
-    else
-      stateMgr.setState(STATEC);
-  }
-  */
   
   //get all already drawn pixels and reset transformation parameters 
   loadPixels();
   popMatrix();
+  clearWall();
 
   if (frame == duration) {
     saveTable(table, file);

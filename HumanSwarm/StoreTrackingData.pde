@@ -25,7 +25,6 @@ void calculateOrientation() {
   }
 }
 
-
 void readCsv() {
 
   String frameS = "" + frame;
@@ -33,32 +32,28 @@ void readCsv() {
   for (TableRow row : table.findRows(frameS, "frame")) {
 
     numberPerson++;
-    
+
     noStroke();
-    
+
     //color pixels depending on shape/state
-    
-    if(green(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250){
-    fill(255,255,0, opacityPrevUsersBright);
-    } else if (red(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 50){
-    fill(50,0,0, opacityPrevUsersBright);
+
+    if (green(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250) {
+      fill(255, 255, 0, opacityPrevUsersBright);
+    } else if (red(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250) {
+      fill(255, 0, 0, opacityPrevUsersBright);
+    } else {
+      fill(255, 255, 255, opacityPrevUsers);
     }
-    
-    else{
-    fill(255, 255, 255, opacityPrevUsers);
-    }
-    
+
     // special treatment for the old users when they turn red during phase H (7)
-    if (stateMgr.currentStateID == 7){
+    if (stateMgr.currentStateID == 7) {
       fill(255, 0, 0, opacityPrevUsersBright);
       ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size_big, cursor_size_big);
     } else {  
       ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size, cursor_size);
     }
-    
-    fill(0);
-    
-     //ball.display(row.getFloat("x") * 3, row.getFloat("y") * 3);
+
+    ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor - wallHeight, cursor_size, cursor_size);  
 
     if (showID)
       text(row.getInt("id"), row.getFloat("x"), row.getFloat("y"));
@@ -84,28 +79,31 @@ void currentTrackingData() {
     numberPerson++;
 
     noStroke();
-    
+
     // original color code for current users
     /*
     if(green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
-    fill(0,0,255, opacityPrevUsers);
+     fill(0,0,255, opacityPrevUsers);
+     }
+     */
+     
+    if (stateMgr.currentStateID == 7){
+    loadPixels();
     }
-    */
-    
+
     // new color code for current users (WIP)
-    if(green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
-      fill(255,255,0, opacityPrevUsersBright);
-    } else if (red(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
-      fill(50,0,0, opacityPrevUsersBright);
+    if (green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250) {
+      fill(255, 255, 0);
+    } else if (red(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 50) {
+      fill(255, 0, 0);
+    } else {
+      fill(255, 255, 255);
     }
-    
-    else{
-     fill(255, 255, 255);
-    }
-   
+
     ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
+    ellipse(GetX(trackID), GetY(trackID) - wallHeight , cursor_size, cursor_size);
     fill(0);
-  
+
     if (showID)
       text(GetCursorID(trackID), GetX(trackID), GetY(trackID));
 
@@ -118,9 +116,11 @@ void clearWindow() {
   // clear background with black
   background(0);
 
-  // set upper half of window (=wall projection) bluish
+}
+
+void clearWall() {
   noStroke();
-  fill(70, 100, 150);
+  fill(0);
   rect(0, 0, windowWidth, wallHeight);
   fill(150);
   text((int)frameRate + " FPS", width / 2, 10);
