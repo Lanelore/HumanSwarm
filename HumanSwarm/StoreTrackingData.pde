@@ -37,9 +37,9 @@ void readCsv() {
 
     //color pixels depending on shape/state
 
-    if (green(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250) {
+    if (green(pixels[(int)((row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor))]) >= 250) {
       fill(255, 255, 0, opacityPrevUsersBright);
-    } else if (red(pixels[(int)(row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor)]) >= 250) {
+    } else if (red(pixels[(int)((row.getFloat("y")+1)/scaleFactor)*width + (int)((row.getFloat("x")+1)/scaleFactor)]) >= 250) {
       fill(255, 0, 0, opacityPrevUsersBright);
     } else {
       fill(255, 255, 255, opacityPrevUsers);
@@ -64,11 +64,10 @@ void writeCsv(int trackID) {
 
   TableRow row = table.addRow();
 
-  row.setLong("time", time);
+  row.setInt("time", time);
   row.setInt("frame", frame);
-  row.setInt("id", trackID);
-  row.setFloat("x", GetX(trackID)*scaleFactor);
-  row.setFloat("y", GetY(trackID)*scaleFactor);
+  row.setInt("x", GetX(trackID)*scaleFactor);
+  row.setInt("y", GetY(trackID)*scaleFactor);
 }
 
 void currentTrackingData() {
@@ -80,15 +79,8 @@ void currentTrackingData() {
 
     noStroke();
 
-    // original color code for current users
-    /*
-    if(green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250){
-     fill(0,0,255, opacityPrevUsers);
-     }
-     */
-     
-    if (stateMgr.currentStateID == 7){
-    loadPixels();
+    if (stateMgr.currentStateID == 7) {
+      loadPixels();
     }
 
     // new color code for current users (WIP)
@@ -101,11 +93,19 @@ void currentTrackingData() {
     }
 
     ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
-    ellipse(GetX(trackID), GetY(trackID) - wallHeight , cursor_size, cursor_size);
+    ellipse(GetX(trackID), GetY(trackID) - wallHeight, cursor_size, cursor_size);
     fill(0);
 
     if (showID)
       text(GetCursorID(trackID), GetX(trackID), GetY(trackID));
+
+    
+    //ToDo: Store data in a List and before exit() save in csv file;
+
+    //test.add(GetX(trackID));
+    //test.add(GetY(trackID));
+    //test.add(frame);
+    //test.add(time);
 
     writeCsv(trackID);
   }
@@ -115,7 +115,6 @@ void currentTrackingData() {
 void clearWindow() {
   // clear background with black
   background(0);
-
 }
 
 void clearWall() {
@@ -125,4 +124,18 @@ void clearWall() {
   fill(150);
   text((int)frameRate + " FPS", width / 2, 10);
   text(numberPerson + " tracked person", width*scaleFactor / 2, 30);
+}
+
+void clearTable(){
+
+  String error = "" + (-4.0);
+       for (TableRow row : table.findRows(error, "x")) {
+          row.setFloat("x", 1);
+          println("value deleted!");
+        }
+        
+        for (TableRow row : table.findRows(error, "y")) {
+          row.setFloat("y", 1);
+          println("value deleted!");
+        }
 }

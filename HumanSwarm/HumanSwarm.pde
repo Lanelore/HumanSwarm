@@ -15,7 +15,7 @@ int STATEG;
 int STATEH;
 int STATEI;
 
-int scaleFactor = 4;
+int scaleFactor = 1;
 float cursor_size = 75/scaleFactor;
 float cursor_size_big = 100/scaleFactor;
 
@@ -25,16 +25,16 @@ int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (F
 int floorHeight = windowHeight - wallHeight;
 
 float opacityPrevUsers = 30;
-float opacityPrevUsersBright = 80;
+float opacityPrevUsersBright = 50;
 
 int numberPerson = 0;
 int frame = 0;
-long time;
-int duration = 3600;
+int time;
 boolean showID = false;
 
 String file = "tracking.csv";
 Table table;
+ArrayList<Integer> test = new ArrayList<Integer>();
 
 int show = 0xffff;
 
@@ -50,7 +50,7 @@ void setup() {
   
   initTracking(false, wallHeight * scaleFactor);
   table = loadTable(file, "header");
-  time = System.currentTimeMillis();
+  time = (int)System.currentTimeMillis();
   
   PlayArea playArea = new PlayArea(width * 0.1, wallHeight + wallHeight * 0.1, width * 0.8, wallHeight * 0.8);
   stateMgr = new StateMgr(playArea);
@@ -82,12 +82,6 @@ void draw() {
   popMatrix();
   clearWall();
 
-  if (frame == duration) {
-    saveTable(table, file);
-    //ToDo: sort table?
-    exit();
-  }
-  
   //show previous trackers
   readCsv();
 
@@ -129,17 +123,6 @@ void keyPressed() {
     case '8':
       stateMgr.setState(STATEI);
       break;
-  case 'p':
-    //ShowPath = !ShowPath;
-    break;
-  case 't':
-    //ShowTrack = !ShowTrack;
-    break;
   }
 
-  // use keys <0> .. <9> to toggle foot drawing of tracks 0 .. 9
-  if (key >= '0' && key <= '9')
-  {
-    show = show ^ (int)pow(2, key - '0');
-  }
 } 
