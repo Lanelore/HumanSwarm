@@ -36,8 +36,7 @@ class StateA extends State {
     
     timer += 1;
     if (timer > timeUntilGreenTextAppears && timer < timeUntilTextDisappears){
-      textSize(40);
-      textAlign(CENTER, CENTER);
+      
         
       fill(greenColor);
       text(green, centerX, centerY - playArea.areaHeight/8);

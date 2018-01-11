@@ -45,7 +45,7 @@ class StateI extends State {
       shape(s, centerX, centerY, shapeWidth, shapeHeight);
     }
 
-    if (timer > timeUntilHeartDisappears) {
+    if (timer > timeUntilHeartDisappears * 1.5) {
       // the animation is now finished
       // we can close this now and save the data or do whatever
       clearTable();

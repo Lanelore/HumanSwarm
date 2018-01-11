@@ -102,11 +102,7 @@ void currentTrackingData() {
     
     //ToDo: Store data in a List and before exit() save in csv file;
 
-    //test.add(GetX(trackID));
-    //test.add(GetY(trackID));
-    //test.add(frame);
-    //test.add(time);
-
+   
     writeCsv(trackID);
   }
 }
@@ -123,7 +119,7 @@ void clearWall() {
   rect(0, 0, windowWidth, wallHeight);
   fill(150);
   text((int)frameRate + " FPS", width / 2, 10);
-  text(numberPerson + " tracked person", width*scaleFactor / 2, 30);
+  //text(numberPerson + " tracked person", width*scaleFactor / 2, 30);
 }
 
 void clearTable(){
@@ -138,4 +134,13 @@ void clearTable(){
           row.setFloat("y", 1);
           println("value deleted!");
         }
+}
+
+void saveCSV(){
+  
+  //trackingData.add(GetX(trackID));
+    //trackingData.add(GetY(trackID));
+    //trackingData.add(frame);
+    //trackingData.add(time);
+
 }

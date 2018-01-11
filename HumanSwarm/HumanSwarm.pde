@@ -15,9 +15,11 @@ int STATEG;
 int STATEH;
 int STATEI;
 
-int scaleFactor = 1;
+int scaleFactor = 4;
 float cursor_size = 75/scaleFactor;
 float cursor_size_big = 100/scaleFactor;
+
+
 
 int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
 int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
@@ -25,7 +27,7 @@ int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (F
 int floorHeight = windowHeight - wallHeight;
 
 float opacityPrevUsers = 30;
-float opacityPrevUsersBright = 50;
+float opacityPrevUsersBright = 80;
 
 int numberPerson = 0;
 int frame = 0;
@@ -34,17 +36,23 @@ boolean showID = false;
 
 String file = "tracking.csv";
 Table table;
-ArrayList<Integer> test = new ArrayList<Integer>();
+ArrayList<Integer> trackingData = new ArrayList<Integer>();
 
 int show = 0xffff;
 
 void settings()
 {
+ 
   size(windowWidth, windowHeight);
+  //fullScreen(P2D, SPAN);
 }
 
 void setup() {
   
+  textSize(40);
+  textAlign(CENTER, CENTER);
+  
+  noCursor();
   noStroke();
   fill(0);
   
@@ -71,8 +79,8 @@ void setup() {
 void draw() {
   
   pushMatrix();
-  numberPerson = 0;
   clearWindow();
+  numberPerson = 0;
   
   stateMgr.getCurrentState().draw();
   stateMgr.updateStates();
