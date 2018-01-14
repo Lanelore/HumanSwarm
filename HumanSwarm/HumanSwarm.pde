@@ -24,7 +24,7 @@ int STATEI;
 
 int scaleFactor = 4;
 float cursor_size = 75/scaleFactor;
-float cursor_size_big = 100/scaleFactor;
+float cursor_size_big = 150/scaleFactor;
 
 int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
 int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
@@ -32,7 +32,7 @@ int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (F
 int floorHeight = windowHeight - wallHeight;
 
 float opacityPrevUsers = 30;
-float opacityPrevUsersBright = 80;
+float opacityPrevUsersBright = 150;
 
 Audio audio;
 

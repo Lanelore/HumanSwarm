@@ -40,7 +40,7 @@ void readCsv() {
     if (green(pixels[(int)((row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor))]) >= 250) {
       fill(255, 255, 0, opacityPrevUsersBright);
     } else if (red(pixels[(int)((row.getFloat("y")+1)/scaleFactor)*width + (int)((row.getFloat("x")+1)/scaleFactor)]) >= 250) {
-      fill(255, 0, 0, opacityPrevUsersBright);
+      fill(75, 0, 0, opacityPrevUsersBright);
     } else {
       fill(255, 255, 255, opacityPrevUsers);
     }
@@ -53,6 +53,7 @@ void readCsv() {
       ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor, cursor_size, cursor_size);
     }
 
+    fill(255, 255, 255, opacityPrevUsers);
     ellipse(row.getFloat("x")/scaleFactor, row.getFloat("y")/scaleFactor - wallHeight, cursor_size, cursor_size);  
 
     if (showID)
@@ -93,6 +94,8 @@ void currentTrackingData() {
     }
 
     ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
+    
+    fill(255, 255, 255);
     ellipse(GetX(trackID), GetY(trackID) - wallHeight, cursor_size, cursor_size);
     fill(0);
 
