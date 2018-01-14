@@ -3,7 +3,9 @@
 // in the end it leaves for good
 class StateG extends State {
   // speed parameter
-  float animationSpeed = 200;  
+  float animationSpeed = 200 * timeScale;  
+  float timeUntilAnimal = 200 * timeScale;  
+  float timeUntilNextState = 200 * timeScale;
    
   //music volume variables
   float gain;
@@ -23,6 +25,7 @@ class StateG extends State {
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;
   PVector referenceVector = new PVector(centerX + playArea.areaHeight/2, centerY);
+  float prevAngle = 400;
   
   boolean startB = false;
   boolean stopNow = false;
@@ -75,22 +78,31 @@ class StateG extends State {
     s.disableStyle();  // Ignore the colors in the SVG
     nextStateID = super.getNextStateID();
     
-  //gain = mainGain;
-  fadeOut = false;
-  loadFile = false;
-  
-  player[1].loop();
-  player[1].pause();
+    //gain = mainGain;
+    fadeOut = false;
+    loadFile = false;
+    
+    player[1].loop();
+    player[1].pause();
   }
   
   public void draw() {
     if (!this.isActive()){
       return;
     }
-
        
     //background(bgColor);
     playArea.drawPlayArea();
+    
+    if (timeUntilAnimal > 0){
+      timeUntilAnimal -= 1;
+      return;
+    }
+    
+    if (finished && timeUntilNextState > 0){
+      timeUntilNextState -= 1;
+      return;
+    }
     
     noStroke();
     fill(redColor);
@@ -99,7 +111,7 @@ class StateG extends State {
       finished = followPath(pointsA);      
     } 
     
-    if (finished){
+    if (finished && timeUntilNextState <= 0){
       nextStateID = stateID + 1;
     }
     
@@ -185,6 +197,18 @@ class StateG extends State {
     }
     float a = calcRotationAngleInDegrees(point1, point2);
     
+    if (prevAngle != 400){
+      float calcPrevAngle = prevAngle > 180 ? 360 - prevAngle : prevAngle;
+      float calcCurrAngle = a > 180 || a < -180 ? 360 - a : a;
+      println("prevAngle " + calcPrevAngle + ", currentAngle " + calcCurrAngle + ", difference " + abs(calcPrevAngle - calcCurrAngle));
+      
+      // factor checks the maximum difference between current and last angle to determine a flip
+      if (abs(calcPrevAngle - calcCurrAngle) > 4 * (1/timeScale)){
+        println("do the flip, a: " + a + ", calc: " + calcPrevAngle);
+        a = prevAngle;
+      }
+    }
+    
     // green circle that moves along the curve
     // ellipse(x, y, 20, 20);     
         
@@ -201,6 +225,8 @@ class StateG extends State {
     if (x == referenceVector.x && y == referenceVector.y){
       startB = true;
     }
+    
+    prevAngle = a;
   }
   
   /**

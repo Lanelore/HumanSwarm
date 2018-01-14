@@ -3,8 +3,8 @@
 class StateI extends State {
   // speed parameter
   float timer = 0;
-  float timeUntilHeartAppears = 100;
-  float timeUntilHeartDisappears = 800;
+  float timeUntilHeartAppears = 400 * timeScale;
+  float timeUntilHeartDisappears = 1200 * timeScale;
 
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;

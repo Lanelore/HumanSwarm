@@ -4,8 +4,8 @@
 
 class StateE extends State {
   // speed parameter
-  float translateSpeed = 1.5; // how many pixel per frame are traversed
-  float lineGrowthSpeed = 1.5;
+  float translateSpeed = 1.5 * (1/timeScale); // how many pixel per frame are traversed
+  float lineGrowthSpeed = 1.5 * (1/timeScale);
   
   PShape s;
   int scale = 15;

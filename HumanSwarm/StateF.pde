@@ -4,7 +4,8 @@
 // in the end they leave for good
 class StateF extends State {
   // speed parameter
-  float animationSpeed = 200;  
+  float animationSpeed = 200 * timeScale;  
+  float timeUntilAnimal = 200 * timeScale;  
  
   PShape s;
   float scale = 0.5f;
@@ -19,7 +20,8 @@ class StateF extends State {
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;
   PVector referenceVector = new PVector(centerX + playArea.areaHeight/2, centerY);
-  float bPrevAngle = 0;
+  float bPrevAngle = 400;
+  float aPrevAngle = 400;
   
   boolean stopNow = false;
   boolean start1 = false;  // starts with the first previousT flip
@@ -99,6 +101,11 @@ class StateF extends State {
     
     //background(bgColor);
     playArea.drawPlayArea();
+    
+    if (timeUntilAnimal > 0){
+      timeUntilAnimal -= 1;
+      return;
+    }
     
     noStroke();
     fill(greenColor);
@@ -194,11 +201,25 @@ class StateF extends State {
     }
     float a = calcRotationAngleInDegrees(point1, point2);
     
-    if (b && bPrevAngle != 0){
-      println("bPrevAngle " + bPrevAngle + ", " + abs(bPrevAngle - a));
+    if (b && bPrevAngle != 400){
+      float calcPrevAngle = bPrevAngle > 180 ? 360 - bPrevAngle : bPrevAngle;
+      float calcCurrAngle = a > 180 ? 360 - a : a;
+      println("bPrevAngle " + calcPrevAngle + ", " + abs(calcPrevAngle - calcCurrAngle));
       
-      if (abs(bPrevAngle - a) > 3){
+      // factor checks the maximum difference between current and last angle to determine a flip
+      if (abs(calcPrevAngle - calcCurrAngle) > 4 * (1/timeScale)){
         a = bPrevAngle;
+      }
+    }
+    
+    if (!b && aPrevAngle != 400){
+      float calcPrevAngle = aPrevAngle > 180 ? 360 - aPrevAngle : aPrevAngle;
+      float calcCurrAngle = a > 180 ? 360 - a : a;
+      println("aPrevAngle " + calcPrevAngle + ", " + abs(calcPrevAngle - calcCurrAngle));
+      
+      // factor checks the maximum difference between current and last angle to determine a flip
+      if (abs(calcPrevAngle - calcCurrAngle) > 4 * (1/timeScale)){
+        a = aPrevAngle;
       }
     }
     /*
@@ -218,6 +239,8 @@ class StateF extends State {
     
     if (b){
       bPrevAngle = a;
+    } else {
+      aPrevAngle = a;
     }
   }
   

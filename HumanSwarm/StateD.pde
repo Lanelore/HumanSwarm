@@ -3,12 +3,11 @@
 
 class StateD extends State {
   // speed parameter
-  float timeUntilStar = 50;
-  
-  float armGrowthSpeed = 1;
-  float ballGrowthSpeed = 1;
-  float centerGrowthSpeed = 1;
-  float scaleGrowthSpeed = 0.002f;
+  float timeUntilStar = 50 * timeScale;  
+  float armGrowthSpeed = 1 * (1/timeScale);
+  float ballGrowthSpeed = 1 * (1/timeScale);
+  float centerGrowthSpeed = 1 * (1/timeScale);
+  float scaleGrowthSpeed = 0.002f * (1/timeScale);
 
   float translate = 0;        // counts 
   float targetBallWidth = playArea.areaHeight/2; // final ballWidth

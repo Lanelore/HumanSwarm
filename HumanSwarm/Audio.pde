@@ -18,7 +18,7 @@ class Audio{
   
   void play(){
     
-    println("Gain: " + gain);
+    //println("Gain: " + gain);
     
     if(oldState == -1){
       player[0].loop();

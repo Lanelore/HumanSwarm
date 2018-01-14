@@ -2,7 +2,7 @@
 
 class StateB extends State {
   // speed parameter
-  float lerpSpeed = 0.025;
+  float lerpSpeed = 0.025 * (1/timeScale);
   
   // Morph Setup
   // Two ArrayLists to store the vertices for two shapes

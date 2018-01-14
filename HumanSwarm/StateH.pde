@@ -2,7 +2,7 @@
 // the test users try to spread out to not touch the red areas
 class StateH extends State {
   // speed parameters
-  float timeUntilNextState = 1000;
+  float timeUntilNextState = 1200 * timeScale;
   
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;
