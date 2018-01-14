@@ -1,9 +1,9 @@
 class Audio{
    
   float mainGain = -30;
-  float minGain = -60;
+  float minGain = -80;
   float gain = minGain;
-  float incrementGain = 0.8;
+  float incrementGain = 0.9;
   
   AudioPlayer currentPlayer;
   AudioPlayer oldPlayer;
@@ -57,14 +57,24 @@ class Audio{
       currentPlayer = player[2];
     }
     
-    else if(currentState == 8){
+    else if(currentState == 7){
       
       mainGain = -30;
-      currentPlayer = player[0];
+      currentPlayer = player[3];
 
     }
     
-   if(currentState == 5 || currentState == 6 || currentState == 8){
+    else if(currentState == 8) {
+    
+      mainGain = -30;
+      currentPlayer = player[4];
+      
+      if (((StateI)stateMgr.getState(8)).endMusic()){
+        fadeOut(currentPlayer);
+      }
+    }
+    
+   if(currentState == 5 || currentState == 6 || currentState == 7 || currentState == 8){
      makeTransition(oldPlayer, currentPlayer);
    }
 
@@ -75,16 +85,16 @@ class Audio{
 
 
 void fadeOut(AudioPlayer player){
-  
+    
   if(gain > minGain){
     gain -= incrementGain;
     player.setGain(gain); 
     }
     
   else{
+    player.pause();
     fadeIn = true;
     fadeOut = false;
-    loadFile = true;
 }
 
 }

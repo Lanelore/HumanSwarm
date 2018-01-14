@@ -69,10 +69,11 @@ void setup() {
   player[1] = minim.loadFile("Nature.mp3");
   //for danger (red area)
   player[2] = minim.loadFile("Shark.mp3");
+  //for red points
+  player[3] = minim.loadFile("Jungle.mp3");
   //for heart
-  player[3] = minim.loadFile("Shark.mp3");
-  
-    
+  player[4] = minim.loadFile("Magic.mp3");
+   
   textSize(40);
   textAlign(CENTER, CENTER);
   

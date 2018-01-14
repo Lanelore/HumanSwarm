@@ -103,9 +103,10 @@ void currentTrackingData() {
       text(GetCursorID(trackID), GetX(trackID), GetY(trackID));
 
     
-    //ToDo: Store data in a List and before exit() save in csv file;
+    //ToDo: Store data in a List (instead of "writeCsv")
+    
+    //writeToArray(trackID);
 
-   
     writeCsv(trackID);
   }
 }
@@ -139,11 +140,28 @@ void clearTable(){
         }
 }
 
-void saveCSV(){
+void writeToArray(int trackID){
   
-  //trackingData.add(GetX(trackID));
-    //trackingData.add(GetY(trackID));
-    //trackingData.add(frame);
-    //trackingData.add(time);
+  trackingData.add(time);
+  trackingData.add(frame);
+  trackingData.add(GetX(trackID));
+  trackingData.add(GetY(trackID));
+}
 
+void writeFromArray(){
+  
+  for(int i = 0; i < trackingData.size(); i+=4){
+  
+  TableRow row = table.addRow();
+
+  row.setInt("time", trackingData.get(i));
+  row.setInt("frame", trackingData.get(i+1));
+  row.setInt("x", trackingData.get(i+2)*scaleFactor);
+  row.setInt("y", trackingData.get(i+3)*scaleFactor);
+  
+  }
+  
+  
+  
+  
 }

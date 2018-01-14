@@ -5,7 +5,9 @@ class StateI extends State {
   float timer = 0;
   float timeUntilHeartAppears = 400 * timeScale;
   float timeUntilHeartDisappears = 1200 * timeScale;
-
+  
+  boolean endMusic;
+  
   float centerX = playArea.x + playArea.areaWidth/2;
   float centerY = playArea.y + playArea.areaHeight/2;
 
@@ -44,14 +46,24 @@ class StateI extends State {
       shapeMode(CENTER);
       shape(s, centerX, centerY, shapeWidth, shapeHeight);
     }
+    
+    if (timer > timeUntilHeartDisappears * 1.1) {
+      endMusic = true;
+    }
 
     if (timer > timeUntilHeartDisappears * 1.5) {
       // the animation is now finished
-      // we can close this now and save the data or do whatever
+      
+      //save Tracking data - writeFromArray, if writeToArray activated
+      //writeFromArray();
       clearTable();
       saveTable(table, file);
       //ToDo: delete oldest tracking data if tracked persons > 200
       exit();
     }
+  }
+  
+  boolean endMusic(){
+    return endMusic;
   }
 }
