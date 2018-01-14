@@ -6,7 +6,7 @@ class StateE extends State {
   // speed parameter
   float translateSpeed = 1.5; // how many pixel per frame are traversed
   float lineGrowthSpeed = 1.5;
-
+  
   PShape s;
   int scale = 15;
   int shapeWidth = 237 * scale;
@@ -59,10 +59,11 @@ class StateE extends State {
   }
   
   public void draw() {
+    
     if (!this.isActive()){
       return;
     }
-    
+     
     //background(bgColor);
     playArea.drawPlayArea();    
     noStroke();

@@ -4,6 +4,11 @@
 class StateG extends State {
   // speed parameter
   float animationSpeed = 200;  
+   
+  //music volume variables
+  float gain;
+  boolean fadeOut;
+  boolean loadFile;
   
   PShape s;
   float scale = 0.75f;
@@ -69,13 +74,21 @@ class StateG extends State {
     s = loadShape("Shark.svg");
     s.disableStyle();  // Ignore the colors in the SVG
     nextStateID = super.getNextStateID();
+    
+  //gain = mainGain;
+  fadeOut = false;
+  loadFile = false;
+  
+  player[1].loop();
+  player[1].pause();
   }
   
   public void draw() {
     if (!this.isActive()){
       return;
     }
-    
+
+       
     //background(bgColor);
     playArea.drawPlayArea();
     

@@ -24,13 +24,15 @@ class StateA extends State {
   
   public void setup(){
     nextStateID = super.getNextStateID();
+    //player[0].setGain(gain);
+    //player[0].loop();
   }
   
   public void draw() {
     if (!this.isActive()){
       return;
     }
-    
+       
     //background(bgColor);
     playArea.drawPlayArea();
     

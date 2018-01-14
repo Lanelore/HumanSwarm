@@ -5,7 +5,7 @@
 class StateF extends State {
   // speed parameter
   float animationSpeed = 200;  
-  
+ 
   PShape s;
   float scale = 0.5f;
   int shapeWidth = (int) (93 * scale);
@@ -92,6 +92,7 @@ class StateF extends State {
   }
   
   public void draw() {
+    
     if (!this.isActive()){
       return;
     }

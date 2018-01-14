@@ -2,6 +2,13 @@
 * Simple finite state machine
 * v1.1
 */
+import ddf.minim.*;
+AudioPlayer[] player;
+Minim minim;
+
+//float mainGain = -30;
+//float minGain = -60;
+//float incrementGain = 0.8;
 
 StateMgr stateMgr;
 
@@ -19,8 +26,6 @@ int scaleFactor = 4;
 float cursor_size = 75/scaleFactor;
 float cursor_size_big = 100/scaleFactor;
 
-
-
 int windowWidth = 3030/scaleFactor; // for real Deep Space this should be 3030
 int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
 int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -28,6 +33,8 @@ int floorHeight = windowHeight - wallHeight;
 
 float opacityPrevUsers = 30;
 float opacityPrevUsersBright = 80;
+
+Audio audio;
 
 int numberPerson = 0;
 int frame = 0;
@@ -49,6 +56,19 @@ void settings()
 
 void setup() {
   
+  player = new AudioPlayer[10];
+  minim = new Minim(this);
+  //for all circles
+  
+  player[0] = minim.loadFile("Magic.mp3");
+  //for butterflies
+  player[1] = minim.loadFile("Nature.mp3");
+  //for danger (red area)
+  player[2] = minim.loadFile("Shark.mp3");
+  //for heart
+  player[3] = minim.loadFile("Shark.mp3");
+  
+    
   textSize(40);
   textAlign(CENTER, CENTER);
   
@@ -74,9 +94,14 @@ void setup() {
   STATEI = stateMgr.addState(new StateI(stateMgr));
    
   stateMgr.setState(STATEA);
+  
+  audio = new Audio();
+  
 }
 
 void draw() {
+  
+  audio.play();
   
   pushMatrix();
   clearWindow();
