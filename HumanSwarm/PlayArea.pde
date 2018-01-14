@@ -36,7 +36,6 @@ class PlayArea {
     noFill();
     stroke(playAreaColor);
     strokeWeight(1);
-    //fill(playAreaColor);
-    rect(x, y, areaWidth, areaHeight);
+    //rect(x, y, areaWidth, areaHeight);
   }
 }
