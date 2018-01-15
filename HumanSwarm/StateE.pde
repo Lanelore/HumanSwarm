@@ -8,7 +8,7 @@ class StateE extends State {
   float lineGrowthSpeed = 1.5 * (1/timeScale) * 4/scaleFactor;
   
   PShape s;
-  int scale = 15;
+  int scale = 14;
   int shapeWidth = 237 * scale * 4/scaleFactor;
   int shapeHeight = 113 * scale * 4/scaleFactor;
   float translate = 0;        // counts 
