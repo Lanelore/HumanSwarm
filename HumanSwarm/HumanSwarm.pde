@@ -26,7 +26,7 @@ int STATEI;
 // 0.5 means double speed in case we half half of the usual fps (30 instead of 60)
 float timeScale = 0.5f;
 
-int scaleFactor = 1;
+int scaleFactor = 8;
 float cursor_size = 75/scaleFactor;
 float cursor_size_big = 150/scaleFactor;
 
@@ -74,7 +74,7 @@ void setup() {
   //for heart
   player[4] = minim.loadFile("Magic.mp3");
    
-  textSize(150);
+  textSize(40 * 4/scaleFactor);
   textAlign(CENTER, CENTER);
   
   noCursor();

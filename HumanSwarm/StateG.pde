@@ -14,8 +14,8 @@ class StateG extends State {
   
   PShape s;
   float scale = 0.75f;
-  int shapeWidth = (int) (206 * scale);
-  int shapeHeight = (int) (367 * scale);
+  int shapeWidth = (int) (206 * scale) * 4/scaleFactor;
+  int shapeHeight = (int) (367 * scale) * 4/scaleFactor;
   
   int counter = 0;
   float previousT = 0;

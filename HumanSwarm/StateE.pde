@@ -4,17 +4,17 @@
 
 class StateE extends State {
   // speed parameter
-  float translateSpeed = 1.5 * (1/timeScale); // how many pixel per frame are traversed
-  float lineGrowthSpeed = 1.5 * (1/timeScale);
+  float translateSpeed = 1.5 * (1/timeScale) * 4/scaleFactor; // how many pixel per frame are traversed
+  float lineGrowthSpeed = 1.5 * (1/timeScale) * 4/scaleFactor;
   
   PShape s;
   int scale = 15;
-  int shapeWidth = 237 * scale;
-  int shapeHeight = 113 * scale;
+  int shapeWidth = 237 * scale * 4/scaleFactor;
+  int shapeHeight = 113 * scale * 4/scaleFactor;
   float translate = 0;        // counts 
   float ballWidth = playArea.areaHeight/2;
   float maxArmLength = playArea.areaWidth/1.5;
-  float armWidth = 50;
+  float armWidth = 50 * 4/scaleFactor;
   float currentArmLength = 0;
   float currentCenterLineCut = 0;
   boolean linesFinished = false;

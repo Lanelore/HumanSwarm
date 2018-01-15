@@ -84,7 +84,7 @@ void currentTrackingData() {
     noStroke();
 
     if (stateMgr.currentStateID == 7) {
-      loadPixels();
+      //loadPixels();
     }
 /*
     // new color code for current users (WIP)
@@ -127,7 +127,7 @@ void clearWall() {
   fill(0);
   rect(0, 0, windowWidth, wallHeight);
   fill(150);
-  text((int)frameRate + " FPS", width / 2, 10);
+  //text((int)frameRate + " FPS", width / 2, 10);
   println("fps " + frameRate);
   //text(numberPerson + " tracked person", width*scaleFactor / 2, 30);
 }

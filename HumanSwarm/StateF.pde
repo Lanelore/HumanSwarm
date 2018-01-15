@@ -9,8 +9,8 @@ class StateF extends State {
  
   PShape s;
   float scale = 0.5f;
-  int shapeWidth = (int) (93 * scale);
-  int shapeHeight = (int) (61 * scale);
+  int shapeWidth = (int) (93 * scale) * 4/scaleFactor;
+  int shapeHeight = (int) (61 * scale) * 4/scaleFactor;
   
   int counter = 0;
   float previousT = 0;

@@ -34,7 +34,7 @@ class Audio{
     
     if (currentState == 0) {
       
-    mainGain = -30;
+    mainGain = -10;
       
     currentPlayer = player[0];
   
@@ -47,7 +47,7 @@ class Audio{
     else if(currentState == 5){
       
       currentPlayer = player[1];
-      mainGain = 0;
+      mainGain = 10;
       
     }
     

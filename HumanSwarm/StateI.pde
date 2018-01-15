@@ -13,8 +13,8 @@ class StateI extends State {
 
   PShape s;
   float scale = 0.3f;
-  int shapeWidth = (int) (641 * scale);
-  int shapeHeight = (int) (577 * scale);
+  int shapeWidth = (int) (641 * scale) * 4/scaleFactor;
+  int shapeHeight = (int) (577 * scale) * 4/scaleFactor;
 
   StateI() {
     super();

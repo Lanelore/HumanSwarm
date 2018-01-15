@@ -4,7 +4,7 @@
 class StateC extends State {
   // speed parameter
   float animationSpeed = 400 * timeScale;  
-  float morphSpeed = 0.5  * (1/timeScale);
+  float morphSpeed = 0.5  * (1/timeScale) * 4/scaleFactor;
   float growDelayTime = 400 * timeScale;
   
   float centerX = playArea.x + playArea.areaWidth/2;
