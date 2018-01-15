@@ -8,7 +8,7 @@ class StateE extends State {
   float lineGrowthSpeed = 1.5 * (1/timeScale) * 4/scaleFactor;
   
   PShape s;
-  int scale = 14;
+  int scale = 13;
   int shapeWidth = 237 * scale * 4/scaleFactor;
   int shapeHeight = 113 * scale * 4/scaleFactor;
   float translate = 0;        // counts 
@@ -148,7 +148,7 @@ class StateE extends State {
     line(point0.x + width * 2, point60.y, point0.x + width * 2.5, point0.y);    
     
     noStroke();
-    shape(s, point0.x + windowWidth * 2.5 - armWidth, wallHeight + ((floorHeight - shapeHeight) / 2), shapeWidth, shapeHeight); 
+    shape(s, point0.x + windowWidth * 2.5 - armWidth, wallHeight + ((floorHeight - shapeHeight) / 2) - shapeHeight * 0.04, shapeWidth, shapeHeight); 
     
     stroke(greenColor); 
     strokeWeight(armWidth);  

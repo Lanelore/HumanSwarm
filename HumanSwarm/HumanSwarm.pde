@@ -26,7 +26,7 @@ int STATEI;
 // 0.5 means double speed in case we half half of the usual fps (30 instead of 60)
 float timeScale = 0.5f;
 
-int scaleFactor = 8;
+int scaleFactor = 4;
 float cursor_size = 75/scaleFactor;
 float cursor_size_big = 150/scaleFactor;
 
