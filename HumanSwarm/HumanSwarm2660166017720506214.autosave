@@ -35,7 +35,7 @@ int windowHeight = 3712/scaleFactor; // for real Deep Space this should be 3712
 int wallHeight = 1914/scaleFactor; // for real Deep Space this should be 1914 (Floor is 1798)
 int floorHeight = windowHeight - wallHeight;
 
-float opacityPrevUsers = 70;
+float opacityPrevUsers = 30;
 float opacityPrevUsersBright = 150;
 
 Audio audio;
@@ -53,7 +53,6 @@ int show = 0xffff;
 
 void settings()
 {
- 
   size(windowWidth, windowHeight, P2D);
   //fullScreen(P2D, SPAN);
 }
@@ -100,23 +99,27 @@ void setup() {
    
   stateMgr.setState(STATEA);
   
-  audio = new Audio();
-  
+  audio = new Audio(); 
 }
 
-void draw() {
-  
+void draw() {  
   audio.play();
   
-  pushMatrix();
+  //pushMatrix();
   clearWindow();
+  
   numberPerson = 0;
   
   stateMgr.getCurrentState().draw();
+    
   stateMgr.updateStates();
-  
+    
+    if (true){
+  return;  
+    }
   //get all already drawn pixels and reset transformation parameters 
-  //loadPixels();
+  // loadPixels();
+    
   popMatrix();
   clearWall();
 

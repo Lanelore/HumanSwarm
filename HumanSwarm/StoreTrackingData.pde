@@ -36,7 +36,7 @@ void readCsv() {
     noStroke();
 
     //color pixels depending on shape/state
-
+/*
     if (green(pixels[(int)((row.getFloat("y")/scaleFactor)*width + (int)(row.getFloat("x")/scaleFactor))]) >= 250) {
       fill(255, 255, 0, opacityPrevUsersBright);
     } else if (red(pixels[(int)((row.getFloat("y")+1)/scaleFactor)*width + (int)((row.getFloat("x")+1)/scaleFactor)]) >= 250) {
@@ -44,6 +44,9 @@ void readCsv() {
     } else {
       fill(255, 255, 255, opacityPrevUsers);
     }
+    */
+          fill(255, 255, 255, opacityPrevUsers);
+
 
     // special treatment for the old users when they turn red during phase H (7)
     if (stateMgr.currentStateID == 7) {
@@ -83,7 +86,7 @@ void currentTrackingData() {
     if (stateMgr.currentStateID == 7) {
       loadPixels();
     }
-
+/*
     // new color code for current users (WIP)
     if (green(pixels[(int)(GetY(trackID)*width + GetX(trackID))]) >= 250) {
       fill(255, 255, 0);
@@ -92,6 +95,8 @@ void currentTrackingData() {
     } else {
       fill(255, 255, 255);
     }
+*/
+      fill(255, 255, 255);
 
     ellipse(GetX(trackID), GetY(trackID), cursor_size, cursor_size);
     
@@ -123,6 +128,7 @@ void clearWall() {
   rect(0, 0, windowWidth, wallHeight);
   fill(150);
   text((int)frameRate + " FPS", width / 2, 10);
+  println("fps " + frameRate);
   //text(numberPerson + " tracked person", width*scaleFactor / 2, 30);
 }
 
