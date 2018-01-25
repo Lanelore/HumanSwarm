@@ -24,9 +24,9 @@ int STATEI;
 
 // this variable controls the time scale of all animations of each and every state
 // 0.5 means double speed in case we half half of the usual fps (30 instead of 60)
-float timeScale = 1f;
+float timeScale = 0.5f;
 
-int scaleFactor = 4;
+int scaleFactor = 1;
 float cursor_size = 75/scaleFactor;
 float cursor_size_big = 150/scaleFactor;
 
@@ -54,8 +54,8 @@ int show = 0xffff;
 void settings()
 {
  
-  size(windowWidth, windowHeight, P2D);
-  //fullScreen(P2D, SPAN);
+  //size(windowWidth, windowHeight, P2D);
+  fullScreen(P2D, SPAN);
 }
 
 void setup() {
