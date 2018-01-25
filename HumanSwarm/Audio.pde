@@ -3,7 +3,7 @@ class Audio{
   float mainGain = -30;
   float minGain = -80;
   float gain = minGain;
-  float incrementGain = 0.9;
+  float incrementGain = 1.2;
   
   AudioPlayer currentPlayer;
   AudioPlayer oldPlayer;
@@ -53,23 +53,24 @@ class Audio{
     
     else if(currentState == 6){
       
-      mainGain = -10;
+      mainGain = 0;
       currentPlayer = player[2];
     }
     
     else if(currentState == 7){
       
-      mainGain = -30;
+      mainGain = -10;
       currentPlayer = player[3];
 
     }
     
     else if(currentState == 8) {
     
-      mainGain = -30;
+      mainGain = -10;
       currentPlayer = player[4];
       
       if (((StateI)stateMgr.getState(8)).endMusic()){
+        incrementGain = 0.1;
         fadeOut(currentPlayer);
       }
     }

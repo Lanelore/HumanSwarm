@@ -72,7 +72,7 @@ void setup() {
   //for red points
   player[3] = minim.loadFile("Jungle.mp3");
   //for heart
-  player[4] = minim.loadFile("Magic.mp3");
+  player[4] = minim.loadFile("Ending_long.mp3");
    
   textSize(40 * 4/scaleFactor);
   textAlign(CENTER, CENTER);
