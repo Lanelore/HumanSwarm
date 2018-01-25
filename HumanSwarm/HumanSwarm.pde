@@ -24,9 +24,9 @@ int STATEI;
 
 // this variable controls the time scale of all animations of each and every state
 // 0.5 means double speed in case we half half of the usual fps (30 instead of 60)
-float timeScale = 0.5f;
+float timeScale = 1f;
 
-int scaleFactor = 1;
+int scaleFactor = 4;
 float cursor_size = 75/scaleFactor;
 float cursor_size_big = 150/scaleFactor;
 
@@ -54,8 +54,8 @@ int show = 0xffff;
 void settings()
 {
  
-  //size(windowWidth, windowHeight, P2D);
-  fullScreen(P2D, SPAN);
+  size(windowWidth, windowHeight, P2D);
+  //fullScreen(P2D, SPAN);
 }
 
 void setup() {
@@ -72,7 +72,7 @@ void setup() {
   //for red points
   player[3] = minim.loadFile("Jungle.mp3");
   //for heart
-  player[4] = minim.loadFile("Magic.mp3");
+  player[4] = minim.loadFile("Ending_long.mp3");
    
   textSize(40 * 4/scaleFactor);
   textAlign(CENTER, CENTER);
